@@ -10,6 +10,7 @@ import {
   Eye,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -157,9 +158,10 @@ const LandingPage = () => {
                   onClick={() => {
                     logout();
                   }}
-                  className="text-xs text-gray-600 hover:text-black font-semibold transition-colors"
+                  className="p-1.5 text-gray-400 hover:text-red-500 transition-colors ml-1"
+                  title="Log out"
                 >
-                  Log out
+                  <LogOut className="w-[18px] h-[18px]" />
                 </button>
               </div>
             ) : (
@@ -230,6 +232,7 @@ const LandingPage = () => {
                   }}
                   className="flex items-center gap-3 py-2 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
                 >
+                  <LogOut className="w-4 h-4" />
                   Log out
                 </button>
               </>

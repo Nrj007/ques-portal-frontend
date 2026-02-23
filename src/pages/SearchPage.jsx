@@ -19,7 +19,24 @@ const SearchPage = () => {
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false); // controls the animation state
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const debounceRef = useRef(null);
+
+  const observer = useRef();
+  const lastElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore],
+  );
 
   // Is "active" when there's a search term
   const showResults = isActive && searchTerm.trim().length > 0;
@@ -65,16 +82,27 @@ const SearchPage = () => {
       );
 
       setSearchParams(newParams);
-      fetchPapers(term, filters);
+      setPage(1);
+      fetchPapers(term, filters, 1);
     }, 400);
 
     return () => clearTimeout(debounceRef.current);
   }, [searchTerm, filters]);
 
-  const fetchPapers = async (term = "", currentFilters = filters) => {
+  useEffect(() => {
+    if (page > 1) {
+      fetchPapers(searchTerm.trim(), filters, page);
+    }
+  }, [page]);
+
+  const fetchPapers = async (
+    term = "",
+    currentFilters = filters,
+    pageNum = 1,
+  ) => {
     setLoading(true);
     try {
-      const params = { ...currentFilters };
+      const params = { ...currentFilters, page: pageNum };
       if (term) params.q = term;
 
       // Clean empty filters
@@ -83,7 +111,12 @@ const SearchPage = () => {
       });
 
       const response = await api.get("/papers", { params });
-      setPapers(response.data);
+      if (pageNum === 1) {
+        setPapers(response.data);
+      } else {
+        setPapers((prev) => [...prev, ...response.data]);
+      }
+      setHasMore(response.data.length === 20);
     } catch (error) {
       console.error(error);
     } finally {
@@ -391,85 +424,89 @@ const SearchPage = () => {
                 </div>
               ) : papers.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {papers.map((paper) => (
-                    <div
-                      key={paper.id}
-                      className="group bg-white rounded-4xl px-6 py-5 border border-gray-100 hover:shadow-md flex flex-col"
-                    >
-                      {/* Top: course code + year */}
-                      <div className="flex justify-between items-start mb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="p-1.5 bg-emerald-50 rounded-lg">
-                            <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
-                          </span>
-                          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                            {paper.course_code || paper.course || "—"}
-                          </span>
+                  {papers.map((paper, index) => {
+                    const isLast = index === papers.length - 1;
+                    return (
+                      <div
+                        ref={isLast ? lastElementRef : null}
+                        key={paper.id}
+                        className="group bg-white rounded-4xl px-6 py-5 border border-gray-100 hover:shadow-md flex flex-col"
+                      >
+                        {/* Top: course code + year */}
+                        <div className="flex justify-between items-start mb-3">
+                          <div className="flex items-center gap-2">
+                            <span className="p-1.5 bg-emerald-50 rounded-lg">
+                              <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+                            </span>
+                            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                              {paper.course_code || paper.course || "—"}
+                            </span>
+                          </div>
+                          {paper.year && (
+                            <span className="text-sm font-bold text-emerald-500">
+                              {paper.year}
+                            </span>
+                          )}
                         </div>
-                        {paper.year && (
-                          <span className="text-sm font-bold text-emerald-500">
-                            {paper.year}
-                          </span>
-                        )}
-                      </div>
 
-                      {/* Title */}
-                      <h3 className="text-lg font-bold text-gray-900 mb-1 leading-snug group-hover:text-gray-700 line-clamp-2">
-                        {paper.title}
-                      </h3>
+                        {/* Title */}
+                        <h3 className="text-lg font-bold text-gray-900 mb-1 leading-snug group-hover:text-gray-700 line-clamp-2">
+                          {paper.title}
+                        </h3>
 
-                      {/* Exam type + semester */}
-                      <p className="text-xs text-gray-400 mb-6">
-                        {paper.exam_type || "Exam"} • Semester{" "}
-                        {paper.semester || "—"}
-                      </p>
+                        {/* Exam type + semester */}
+                        <p className="text-xs text-gray-400 mb-6">
+                          {paper.exam_type || "Exam"} • Semester{" "}
+                          {paper.semester || "—"}
+                        </p>
 
-                      {/* Actions */}
-                      <div className="flex items-center gap-2 mt-auto mb-4">
-                        <button
-                          onClick={() => handleViewPaper(paper)}
-                          className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
-                        >
-                          <Eye className="w-4 h-4" /> View
-                        </button>
-                        <button
-                          onClick={() => handleDownloadPaper(paper)}
-                          className="p-3 border border-gray-200 rounded-full hover:bg-gray-50 text-gray-400 hover:text-gray-600"
-                          title="Download"
-                        >
-                          <Download className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleToggleFavorite(paper)}
-                          title={
-                            user
-                              ? paper.is_favorite
-                                ? "Remove favourite"
-                                : "Add favourite"
-                              : "Login to favourite"
-                          }
-                          className={`p-3 border rounded-full ${
-                            paper.is_favorite
-                              ? "bg-red-50 border-red-100 text-red-500"
-                              : "border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-400 hover:border-red-100"
-                          }`}
-                        >
-                          <Heart
-                            className={`w-4 h-4 ${paper.is_favorite ? "fill-current" : ""}`}
-                          />
-                        </button>
-                      </div>
-
-                      {/* Tiny stats */}
-                      <div className="flex justify-between px-2 text-[11px] text-gray-400 font-medium">
-                        <div className="flex gap-4">
-                          <span>{paper.downloads || 0} DLs</span>
-                          <span>{paper.views || 0} Views</span>
+                        {/* Actions */}
+                        <div className="flex items-center gap-2 mt-auto mb-4">
+                          <button
+                            onClick={() => handleViewPaper(paper)}
+                            className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
+                          >
+                            <Eye className="w-4 h-4" /> View
+                          </button>
+                          <button
+                            onClick={() => handleDownloadPaper(paper)}
+                            className="p-3 border border-gray-200 rounded-full hover:bg-gray-50 text-gray-400 hover:text-gray-600"
+                            title="Download"
+                          >
+                            <Download className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleToggleFavorite(paper)}
+                            title={
+                              user
+                                ? paper.is_favorite
+                                  ? "Remove favourite"
+                                  : "Add favourite"
+                                : "Login to favourite"
+                            }
+                            className={`p-3 border rounded-full ${
+                              paper.is_favorite
+                                ? "bg-red-50 border-red-100 text-red-500"
+                                : "border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-400 hover:border-red-100"
+                            }`}
+                          >
+                            <Heart
+                              className={`w-4 h-4 ${paper.is_favorite ? "fill-current" : ""}`}
+                            />
+                          </button>
                         </div>
-                        <span>{paper.favorites_count || 0} Favs</span>
+
+                        {/* Tiny stats */}
+                        <div className="flex justify-between px-2 text-[11px] text-gray-400 font-medium">
+                          <div className="flex gap-4">
+                            <span>{paper.downloads || 0} DLs</span>
+                            <span>{paper.views || 0} Views</span>
+                          </div>
+                          <span>{paper.favorites_count || 0} Favs</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 searchTerm.trim() &&

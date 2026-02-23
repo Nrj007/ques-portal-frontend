@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -30,19 +30,42 @@ const AdminRequestsPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const observer = useRef();
+  const lastElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore],
+  );
 
   useEffect(() => {
-    fetchRequests();
-  }, []);
+    fetchRequests(page);
+  }, [page]);
 
-  const fetchRequests = async () => {
+  const fetchRequests = async (pageNum = 1) => {
+    if (pageNum === 1) setLoading(true);
     try {
-      const res = await api.get("/papers/requests");
-      setRequests(res.data);
+      const res = await api.get(`/papers/requests?page=${pageNum}`);
+      if (pageNum === 1) {
+        setRequests(res.data);
+      } else {
+        setRequests((prev) => [...prev, ...res.data]);
+      }
+      setHasMore(res.data.length === 20);
     } catch (err) {
       console.error("Error fetching requests:", err);
     } finally {
-      setLoading(false);
+      if (pageNum === 1) setLoading(false);
     }
   };
 
@@ -137,14 +160,14 @@ const AdminRequestsPage = () => {
             <div className="bg-white rounded-4xl border border-gray-100 overflow-hidden">
               {/* Table header */}
               <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 text-xs font-bold text-gray-400 uppercase tracking-wider">
-                <div className="col-span-3">Course</div>
+                <div className="col-span-2">Course</div>
                 <div className="col-span-1">Code</div>
                 <div className="col-span-1">Sem</div>
-                <div className="col-span-2">Type</div>
+                <div className="col-span-1">Type</div>
                 <div className="col-span-1">Year</div>
                 <div className="col-span-2">Requested By (Email)</div>
                 <div className="col-span-1 text-center">Status</div>
-                <div className="col-span-1 text-right">Actions</div>
+                <div className="col-span-3 text-right">Actions</div>
               </div>
 
               {/* Table rows */}
@@ -165,15 +188,17 @@ const AdminRequestsPage = () => {
                       req.requested_by.toLowerCase().includes(q))
                   );
                 })
-                .map((req) => {
+                .map((req, index, arr) => {
                   const s = statusConfig[req.status] || statusConfig.pending;
                   const StatusIcon = s.icon;
+                  const isLast = index === arr.length - 1;
                   return (
                     <div
+                      ref={isLast ? lastElementRef : null}
                       key={req.id}
                       className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-50 items-center hover:bg-gray-50/50 text-sm"
                     >
-                      <div className="col-span-3 font-semibold text-gray-900 truncate">
+                      <div className="col-span-2 font-semibold text-gray-900 truncate">
                         {req.course_name}
                       </div>
                       <div className="col-span-1 text-gray-500 uppercase text-xs font-semibold">
@@ -182,7 +207,10 @@ const AdminRequestsPage = () => {
                       <div className="col-span-1 text-gray-500">
                         {req.semester || "—"}
                       </div>
-                      <div className="col-span-2 text-gray-500">
+                      <div
+                        className="col-span-1 text-gray-500 truncate"
+                        title={req.exam_type}
+                      >
                         {req.exam_type || "—"}
                       </div>
                       <div className="col-span-1 text-gray-500">
@@ -202,7 +230,7 @@ const AdminRequestsPage = () => {
                           <span className="hidden lg:inline">{s.label}</span>
                         </span>
                       </div>
-                      <div className="col-span-1 flex justify-end gap-2">
+                      <div className="col-span-3 flex justify-end gap-2">
                         {req.status !== "fulfilled" && (
                           <button
                             onClick={() => updateStatus(req.id, "fulfilled")}
