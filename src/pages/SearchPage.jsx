@@ -426,6 +426,7 @@ const SearchPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {papers.map((paper, index) => {
                     const isLast = index === papers.length - 1;
+                    const color = iconColors[index % iconColors.length];
                     return (
                       <div
                         ref={isLast ? lastElementRef : null}
@@ -433,18 +434,24 @@ const SearchPage = () => {
                         className="group bg-white rounded-[2rem] p-6 border border-gray-100/80 hover:shadow-xl hover:shadow-gray-200/50 flex flex-col transition-all"
                       >
                         {/* Top: course code + year */}
-                        <div className="flex justify-between items-center mb-5">
+                        <div className="flex justify-between items-center mb-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-emerald-50/80 rounded-2xl flex items-center justify-center">
-                              <BookOpen className="w-5 h-5 text-emerald-600" />
+                            <div
+                              className={`w-10 h-10 ${color.bg} rounded-2xl flex items-center justify-center`}
+                            >
+                              <BookOpen className={`w-5 h-5 ${color.text}`} />
                             </div>
                             <span className="text-[13px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
                               {paper.course_code || paper.course || "—"}
                             </span>
                           </div>
                           {paper.year && (
-                            <div className="px-3.5 py-1.5 bg-emerald-50/80 rounded-full">
-                              <span className="text-[13px] font-bold text-emerald-600">
+                            <div
+                              className={`px-3.5 py-1.5 ${color.bg} rounded-full`}
+                            >
+                              <span
+                                className={`text-[13px] font-bold ${color.text}`}
+                              >
                                 {paper.year}
                               </span>
                             </div>
@@ -452,12 +459,12 @@ const SearchPage = () => {
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-[22px] font-bold text-gray-900 mb-2 leading-tight group-hover:text-gray-800 line-clamp-2">
+                        <h3 className="text-[20px] font-bold text-gray-900 mb-2 leading-tight group-hover:text-gray-800 line-clamp-2">
                           {paper.title}
                         </h3>
 
                         {/* Exam type + semester */}
-                        <p className="text-[15px] font-medium text-gray-500 mb-8">
+                        <p className="text-[14px] font-medium text-gray-500 mb-6">
                           {paper.exam_type || "Exam"} • Semester{" "}
                           {paper.semester || "—"}
                         </p>
@@ -469,34 +476,29 @@ const SearchPage = () => {
                               e.stopPropagation();
                               handleViewPaper(paper);
                             }}
-                            className="flex-1 bg-[#141414] hover:bg-black text-white py-3.5 rounded-[18px] text-[15px] font-semibold flex items-center justify-center gap-2.5 transition-colors"
+                            className="flex-1 bg-[#141414] hover:bg-black text-white py-3.5 rounded-full text-[15px] font-semibold flex items-center justify-center gap-2.5 transition-colors"
                           >
                             <Eye className="w-5 h-5 text-gray-300" /> View
                           </button>
 
-                          <div className="flex flex-col items-center gap-1.5">
+                          <div className="flex gap-2">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleDownloadPaper(paper);
                               }}
-                              className="w-[52px] h-[52px] bg-gray-50/80 hover:bg-gray-100 rounded-[18px] flex items-center justify-center transition-colors"
+                              className="w-[48px] h-[48px] bg-gray-50/80 hover:bg-gray-100 rounded-full flex items-center justify-center transition-colors"
                               title="Download"
                             >
                               <Download className="w-5 h-5 text-gray-500" />
                             </button>
-                            <span className="text-[10px] font-bold text-gray-400">
-                              {paper.downloads || 0}
-                            </span>
-                          </div>
 
-                          <div className="flex flex-col items-center gap-1.5">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleToggleFavorite(paper);
                               }}
-                              className={`w-[52px] h-[52px] rounded-[18px] flex items-center justify-center transition-colors ${
+                              className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-colors ${
                                 paper.is_favorite
                                   ? "bg-red-50 text-red-500 hover:bg-red-100"
                                   : "bg-gray-50/80 text-gray-400 hover:bg-gray-100"
@@ -507,9 +509,6 @@ const SearchPage = () => {
                                 className={`w-5 h-5 ${paper.is_favorite ? "fill-current" : ""}`}
                               />
                             </button>
-                            <span className="text-[10px] font-bold text-gray-400">
-                              {paper.favorites_count || 0}
-                            </span>
                           </div>
                         </div>
                       </div>

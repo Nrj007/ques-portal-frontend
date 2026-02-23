@@ -308,7 +308,6 @@ const LandingPage = () => {
                 className="flex items-center w-full border border-gray-200 rounded-2xl md:rounded-full bg-white shadow-sm p-1.5 focus-within:ring-2 focus-within:ring-blue-100 transition-all flex-col md:flex-row gap-2 md:gap-0"
               >
                 <div className="flex items-center w-full px-4 py-1">
-                  <Search className="w-4 h-4 text-gray-400 flex-shrink-0" />
                   <input
                     type="text"
                     placeholder="Search for course codes or course titles..."
@@ -355,18 +354,24 @@ const LandingPage = () => {
                         className="group bg-white rounded-[2rem] p-6 border border-gray-100/80 hover:shadow-xl hover:shadow-gray-200/50 flex flex-col transition-all cursor-default"
                       >
                         {/* Top: course code + year */}
-                        <div className="flex justify-between items-center mb-5">
+                        <div className="flex justify-between items-center mb-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-emerald-50/80 rounded-2xl flex items-center justify-center">
-                              <BookOpen className="w-5 h-5 text-emerald-600" />
+                            <div
+                              className={`w-10 h-10 ${color.bg} rounded-2xl flex items-center justify-center`}
+                            >
+                              <BookOpen className={`w-5 h-5 ${color.text}`} />
                             </div>
                             <span className="text-[13px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
                               {paper.course_code || paper.course || "—"}
                             </span>
                           </div>
                           {paper.year && (
-                            <div className="px-3.5 py-1.5 bg-emerald-50/80 rounded-full">
-                              <span className="text-[13px] font-bold text-emerald-600">
+                            <div
+                              className={`px-3.5 py-1.5 ${color.bg} rounded-full`}
+                            >
+                              <span
+                                className={`text-[13px] font-bold ${color.text}`}
+                              >
                                 {paper.year}
                               </span>
                             </div>
@@ -374,12 +379,12 @@ const LandingPage = () => {
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-[22px] font-bold text-gray-900 mb-2 leading-tight group-hover:text-gray-800 line-clamp-2">
+                        <h3 className="text-[20px] font-bold text-gray-900 mb-2 leading-tight group-hover:text-gray-800 line-clamp-2">
                           {paper.title}
                         </h3>
 
                         {/* Exam type + semester */}
-                        <p className="text-[15px] font-medium text-gray-500 mb-8">
+                        <p className="text-[14px] font-medium text-gray-500 mb-6">
                           {paper.exam_type || "Exam"} • Semester{" "}
                           {paper.semester || "—"}
                         </p>
