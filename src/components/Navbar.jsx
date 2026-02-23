@@ -102,7 +102,7 @@ const Navbar = () => {
                     onClick={openLoginModal}
                     className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1.5"
                   >
-                    <FileText className="w-4 h-4" />
+          
                     Request Paper
                   </button>
                 </div>

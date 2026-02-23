@@ -236,7 +236,7 @@ const SearchPage = () => {
         {/* ─── SEARCH & CONTENT AREA ─── */}
         <div className="relative w-full max-w-6xl mx-auto px-4">
           <h1
-            className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 mt-16 md:mt-24 text-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 mt-16 md:text-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{ letterSpacing: "-0.02em" }}
           >
             Search in{" "}

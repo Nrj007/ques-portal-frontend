@@ -136,7 +136,23 @@ const LandingPage = () => {
           {/* Desktop nav (hidden on mobile) */}
           <div className="hidden md:flex items-center gap-5">
             {user ? (
-              <>
+              <div className="flex items-center gap-4">
+                <Link
+                  to="/favourites"
+                  className="text-gray-500 hover:text-red-500 transition-colors"
+                  title="My Favourites"
+                >
+                  <Heart className="w-[18px] h-[18px]" />
+                </Link>
+                <div
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100"
+                  title={user.email}
+                >
+                  <User className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm font-semibold text-gray-700">
+                    {user.email ? user.email.split("@")[0] : user.username}
+                  </span>
+                </div>
                 <button
                   onClick={() => {
                     logout();
@@ -145,17 +161,7 @@ const LandingPage = () => {
                 >
                   Log out
                 </button>
-                <button className="text-gray-500 hover:text-black transition-colors">
-                  <User className="w-[18px] h-[18px]" />
-                </button>
-                <Link
-                  to="/favourites"
-                  className="text-gray-500 hover:text-red-500 transition-colors"
-                  title="My Favourites"
-                >
-                  <Heart className="w-[18px] h-[18px]" />
-                </Link>
-              </>
+              </div>
             ) : (
               <>
                 <button
