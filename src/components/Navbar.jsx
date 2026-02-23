@@ -111,10 +111,10 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/admin/analytics"
-                    className={`ml-2 px-4 py-1.5 text-xs font-bold rounded-full transition-colors ${
+                    className={`text-sm font-medium transition-colors ${
                       location.pathname === "/admin/analytics"
-                        ? "bg-gray-900 text-white"
-                        : "bg-gray-900 text-white hover:bg-black"
+                        ? "text-gray-900 font-bold"
+                        : "text-gray-500 hover:text-gray-900"
                     }`}
                   >
                     Stats
@@ -214,7 +214,7 @@ const Navbar = () => {
           <div className="px-4 pt-2 pb-3 space-y-1 flex flex-col">
             <Link
               to="/search"
-              className={`block px-3 py-2 rounded-md text-base font-medium ${
+              className={`block px-3 py-2 rounded-md text-sm font-medium ${
                 !isFavourites && !isHome
                   ? "text-gray-900 bg-gray-50 font-bold"
                   : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
@@ -226,7 +226,7 @@ const Navbar = () => {
             {user ? (
               <Link
                 to="/favourites"
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                className={`block px-3 py-2 rounded-md text-sm font-medium ${
                   isFavourites
                     ? "text-gray-900 bg-gray-50 font-bold"
                     : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
@@ -237,7 +237,7 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={openLoginModal}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
               >
                 Favorites
               </button>
@@ -247,7 +247,7 @@ const Navbar = () => {
               <>
                 <Link
                   to="/admin/manage"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname === "/admin/manage"
                       ? "text-gray-900 bg-gray-50 font-bold"
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
@@ -257,7 +257,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/admin"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname === "/admin"
                       ? "text-gray-900 bg-gray-50 font-bold"
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
@@ -267,7 +267,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/admin/analytics"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
                     location.pathname === "/admin/analytics"
                       ? "text-gray-900 bg-gray-50 font-bold"
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
