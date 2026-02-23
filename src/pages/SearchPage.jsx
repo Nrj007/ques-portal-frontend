@@ -234,7 +234,7 @@ const SearchPage = () => {
 
         {/* ─── LANDING STATE (no search yet) ─── */}
         <div
-          className={`w-full px-4 pt-16 md:pt-24 pb-32 ${isActive ? "hidden" : "block"}`}
+          className={`relative z-10 w-full px-4 pt-16 md:pt-24 pb-32 ${isActive ? "hidden" : "block"}`}
         >
           <h1
             className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 text-center"
@@ -301,7 +301,7 @@ const SearchPage = () => {
 
         {/* ─── SEARCH RESULTS STATE ─── */}
         <div
-          className={`w-full max-w-6xl mx-auto px-4 pt-8 pb-16 ${!isActive ? "hidden" : "block"}`}
+          className={`relative z-10 w-full max-w-6xl mx-auto px-4 pt-8 pb-16 ${!isActive ? "hidden" : "block"}`}
         >
           {/* Compact search bar + filter card */}
           <div
