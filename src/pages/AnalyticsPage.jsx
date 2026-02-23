@@ -86,7 +86,7 @@ const AnalyticsPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50/50 pb-20 font-sans text-gray-900 tracking-tight">
       <Navbar />
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-28">
+      <div className="flex-grow max-w-7xl mx-auto px-6 lg:px-8 pt-28">
         {/* Header */}
         <div className="flex items-center justify-between mb-10">
           <h1 className="text-3xl lg:text-[40px] font-bold text-gray-900 tracking-[-0.03em]">

@@ -210,8 +210,8 @@ const SearchPage = () => {
       <LoginModal />
 
       <div
-        className="relative flex flex-col items-center"
-        style={{ paddingTop: "72px", minHeight: "100vh" }}
+        className="relative flex flex-col flex-grow"
+        style={{ paddingTop: "72px" }}
       >
         {/* Radial gradient blob */}
         <div

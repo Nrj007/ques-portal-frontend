@@ -86,8 +86,8 @@ const FavouritesPage = () => {
       <Navbar />
 
       <div
-        className="relative w-full"
-        style={{ paddingTop: "72px", minHeight: "100vh" }}
+        className="relative w-full flex flex-col flex-grow"
+        style={{ paddingTop: "72px" }}
       >
         {/* Radial gradient blob — matches SearchPage */}
         <div
