@@ -338,7 +338,7 @@ const SearchPage = () => {
               {/* Filter Dropdowns */}
               <div className="flex gap-3 mt-4">
                 <select
-                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer transition-colors"
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
                   value={filters.year}
                   onChange={(e) => handleFilterChange("year", e.target.value)}
                   style={{
@@ -356,7 +356,7 @@ const SearchPage = () => {
                 </select>
 
                 <select
-                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer transition-colors"
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
                   value={filters.semester}
                   onChange={(e) =>
                     handleFilterChange("semester", e.target.value)
@@ -384,7 +384,7 @@ const SearchPage = () => {
                 </select>
 
                 <select
-                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer transition-colors"
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
                   value={filters.exam_type}
                   onChange={(e) =>
                     handleFilterChange("exam_type", e.target.value)
@@ -412,7 +412,7 @@ const SearchPage = () => {
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <div
                     key={i}
-                    className="bg-white rounded-4xl p-6 border border-gray-100 animate-pulse"
+                    className="bg-white rounded-4xl p-6 border border-gray-100"
                   >
                     <div className="h-4 bg-gray-100 rounded-full w-1/2 mb-4" />
                     <div className="h-5 bg-gray-100 rounded-full w-3/4 mb-2" />
