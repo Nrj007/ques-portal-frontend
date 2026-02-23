@@ -233,180 +233,178 @@ const SearchPage = () => {
         />
 
         {/* ─── LANDING STATE (no search yet) ─── */}
-        {!isActive && (
-          <div className="w-full px-4 pt-16 md:pt-24 pb-32">
-            <h1
-              className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 text-center"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Search in{" "}
-              <span
-                style={{
-                  background:
-                    "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Q-Vault
-              </span>
-            </h1>
-
-            {/* Search bar with gradient border */}
-            <form
-              onSubmit={handleSearchSubmit}
-              className="w-full max-w-2xl mx-auto"
-            >
-              <div
-                className="rounded-full p-[1.5px]"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
-                }}
-              >
-                <div className="relative bg-white rounded-full">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-                    <Search className="h-5 w-5 text-gray-400" />
-                  </span>
-                  <input
-                    type="text"
-                    className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base cursor-text"
-                    placeholder="Search by course code or course name"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    onClick={() => setIsActive(true)}
-                    onFocus={() => setIsActive(true)}
-                  />
-                </div>
-              </div>
-            </form>
-
-            {/* Tabs */}
-            <div className="flex gap-3 mt-6 justify-center">
-              {["Quick", "Organized", "Unified", "Accessible"].map((tab) => (
-                <button
-                  key={tab}
-                  className="px-5 py-2 text-sm font-medium text-gray-500 hover:text-gray-700"
-                  style={{
-                    borderRadius: "14px",
-                    border: "1px solid #FFF",
-                    background: "rgba(255, 255, 255, 0.40)",
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ─── SEARCH RESULTS STATE ─── */}
-        {isActive && (
-          <div className="w-full max-w-6xl mx-auto px-4 pt-8 pb-16">
-            {/* Compact search bar + filter card */}
-            <div
-              className="bg-white rounded-3xl max-w-2xl mx-auto px-6 py-5 mb-8"
+        <div
+          className={`w-full px-4 pt-16 md:pt-24 pb-32 ${isActive ? "hidden" : "block"}`}
+        >
+          <h1
+            className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 text-center"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Search in{" "}
+            <span
               style={{
-                boxShadow:
-                  "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
+                background: "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
             >
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-1 pointer-events-none">
+              Q-Vault
+            </span>
+          </h1>
+
+          {/* Search bar with gradient border */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="w-full max-w-2xl mx-auto"
+          >
+            <div
+              className="rounded-full p-[1.5px]"
+              style={{
+                background: "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
+              }}
+            >
+              <div className="relative bg-white rounded-full">
+                <span className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400" />
                 </span>
                 <input
                   type="text"
-                  className="w-full pl-8 pr-10 py-2 bg-transparent placeholder-gray-400 focus:outline-none text-base text-gray-800 border-b border-gray-100 focus:border-gray-300"
+                  className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base cursor-text"
                   placeholder="Search by course code or course name"
                   value={searchTerm}
                   onChange={handleSearchChange}
-                  autoFocus
+                  onClick={() => setIsActive(true)}
+                  onFocus={() => setIsActive(true)}
                 />
-                {searchTerm && (
-                  <button
-                    type="button"
-                    onClick={handleClearSearch}
-                    className="absolute inset-y-0 right-0 pr-1 flex items-center text-gray-400 hover:text-gray-600"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                )}
-              </form>
-
-              {/* Filter Dropdowns */}
-              <div className="flex gap-3 mt-4">
-                <select
-                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
-                  value={filters.year}
-                  onChange={(e) => handleFilterChange("year", e.target.value)}
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 0.7rem center",
-                    backgroundSize: "1em",
-                  }}
-                >
-                  <option value="">Year</option>
-                  <option value="2024">2024</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
-                </select>
-
-                <select
-                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
-                  value={filters.semester}
-                  onChange={(e) =>
-                    handleFilterChange("semester", e.target.value)
-                  }
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 0.7rem center",
-                    backgroundSize: "1em",
-                  }}
-                >
-                  <option value="">Sem</option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => {
-                    let suffix = "th";
-                    if (s === 1) suffix = "st";
-                    if (s === 2) suffix = "nd";
-                    if (s === 3) suffix = "rd";
-                    return (
-                      <option key={s} value={s.toString()}>
-                        {s}
-                        {suffix} Sem
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <select
-                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
-                  value={filters.exam_type}
-                  onChange={(e) =>
-                    handleFilterChange("exam_type", e.target.value)
-                  }
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "right 0.7rem center",
-                    backgroundSize: "1em",
-                  }}
-                >
-                  <option value="">Exam Type</option>
-                  <option value="Mid Term">Mid Term</option>
-                  <option value="End Semester">End Semester</option>
-                  <option value="Supplementary">Supplementary</option>
-                  <option value="CAT 1">CAT 1</option>
-                  <option value="CAT 2">CAT 2</option>
-                </select>
               </div>
             </div>
+          </form>
 
-            {/* Results */}
+          {/* Tabs */}
+          <div className="flex gap-3 mt-6 justify-center">
+            {["Quick", "Organized", "Unified", "Accessible"].map((tab) => (
+              <button
+                key={tab}
+                className="px-5 py-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                style={{
+                  borderRadius: "14px",
+                  border: "1px solid #FFF",
+                  background: "rgba(255, 255, 255, 0.40)",
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ─── SEARCH RESULTS STATE ─── */}
+        <div
+          className={`w-full max-w-6xl mx-auto px-4 pt-8 pb-16 ${!isActive ? "hidden" : "block"}`}
+        >
+          {/* Compact search bar + filter card */}
+          <div
+            className="bg-white rounded-3xl max-w-2xl mx-auto px-6 py-5 mb-8"
+            style={{
+              boxShadow:
+                "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
+            }}
+          >
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-1 pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </span>
+              <input
+                type="text"
+                className="w-full pl-8 pr-10 py-2 bg-transparent placeholder-gray-400 focus:outline-none text-base text-gray-800 border-b border-gray-100 focus:border-gray-300"
+                placeholder="Search by course code or course name"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                autoFocus
+              />
+              {searchTerm && (
+                <button
+                  type="button"
+                  onClick={handleClearSearch}
+                  className="absolute inset-y-0 right-0 pr-1 flex items-center text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              )}
+            </form>
+
+            {/* Filter Dropdowns */}
+            <div className="flex gap-3 mt-4">
+              <select
+                className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
+                value={filters.year}
+                onChange={(e) => handleFilterChange("year", e.target.value)}
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 0.7rem center",
+                  backgroundSize: "1em",
+                }}
+              >
+                <option value="">Year</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+              </select>
+
+              <select
+                className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
+                value={filters.semester}
+                onChange={(e) => handleFilterChange("semester", e.target.value)}
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 0.7rem center",
+                  backgroundSize: "1em",
+                }}
+              >
+                <option value="">Sem</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => {
+                  let suffix = "th";
+                  if (s === 1) suffix = "st";
+                  if (s === 2) suffix = "nd";
+                  if (s === 3) suffix = "rd";
+                  return (
+                    <option key={s} value={s.toString()}>
+                      {s}
+                      {suffix} Sem
+                    </option>
+                  );
+                })}
+              </select>
+
+              <select
+                className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
+                value={filters.exam_type}
+                onChange={(e) =>
+                  handleFilterChange("exam_type", e.target.value)
+                }
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 0.7rem center",
+                  backgroundSize: "1em",
+                }}
+              >
+                <option value="">Exam Type</option>
+                <option value="Mid Term">Mid Term</option>
+                <option value="End Semester">End Semester</option>
+                <option value="Supplementary">Supplementary</option>
+                <option value="CAT 1">CAT 1</option>
+                <option value="CAT 2">CAT 2</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Results */}
+          <div>
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -522,7 +520,7 @@ const SearchPage = () => {
               )
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
