@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { Download, Users, Search, FileText, Heart } from "lucide-react";
 import {
   AreaChart,
@@ -438,6 +439,7 @@ const AnalyticsPage = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

@@ -514,12 +514,18 @@ const LandingPage = () => {
           {/* View all link */}
           {recentPapers.length > 0 && (
             <div className="flex justify-center mt-10">
-              <Link
-                to="/search"
+              <button
+                onClick={() => {
+                  if (!user) {
+                    openLoginModal();
+                    return;
+                  }
+                  navigate("/search");
+                }}
                 className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-black font-semibold transition-colors"
               >
                 View all papers <ArrowRight className="w-4 h-4" />
-              </Link>
+              </button>
             </div>
           )}
         </div>

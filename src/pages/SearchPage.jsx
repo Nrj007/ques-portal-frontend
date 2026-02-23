@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import api from "../services/api";
 import { Search, BookOpen, Download, Heart, Eye, X } from "lucide-react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 import LoginModal from "../components/LoginModal";
 
@@ -521,6 +522,7 @@ const SearchPage = () => {
             )}
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

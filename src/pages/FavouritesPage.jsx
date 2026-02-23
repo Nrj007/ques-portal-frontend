@@ -4,6 +4,7 @@ import { Heart, Download, Eye, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const FavouritesPage = () => {
   const { user } = useAuth();
@@ -112,7 +113,6 @@ const FavouritesPage = () => {
           {/* Page Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-              <Heart className="w-7 h-7 text-red-500 fill-current" />
               My Favourites
             </h1>
             <p className="text-sm text-gray-400 mt-1">
@@ -228,6 +228,7 @@ const FavouritesPage = () => {
             </div>
           )}
         </div>
+        <Footer />
       </div>
     </div>
   );
