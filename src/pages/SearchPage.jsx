@@ -10,6 +10,11 @@ const SearchPage = () => {
   const { user, openLoginModal } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
+  const [filters, setFilters] = useState({
+    year: searchParams.get("year") || "",
+    semester: searchParams.get("semester") || "",
+    exam_type: searchParams.get("exam_type") || "",
+  });
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isActive, setIsActive] = useState(false); // controls the animation state
@@ -18,13 +23,19 @@ const SearchPage = () => {
   // Is "active" when there's a search term
   const showResults = isActive && searchTerm.trim().length > 0;
 
-  // On mount: if URL has ?q=, fetch immediately
+  // On mount: if URL has ?q= or filters, fetch immediately
   useEffect(() => {
     const q = searchParams.get("q") || "";
-    if (q) {
-      setSearchTerm(q);
+    const y = searchParams.get("year") || "";
+    const s = searchParams.get("semester") || "";
+    const e = searchParams.get("exam_type") || "";
+
+    if (q || y || s || e) {
+      if (q) setSearchTerm(q);
+      const initFilters = { year: y, semester: s, exam_type: e };
+      setFilters(initFilters);
       setIsActive(true);
-      fetchPapers(q);
+      fetchPapers(q, initFilters);
     }
   }, []);
 
@@ -33,9 +44,10 @@ const SearchPage = () => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     const term = searchTerm.trim();
-    if (!term) {
+    const hasFilters = filters.year || filters.semester || filters.exam_type;
+
+    if (!term && !hasFilters) {
       setPapers([]);
-      setIsActive(false);
       setSearchParams({});
       return;
     }
@@ -43,18 +55,32 @@ const SearchPage = () => {
     setIsActive(true);
 
     debounceRef.current = setTimeout(() => {
-      setSearchParams({ q: term });
-      fetchPapers(term);
+      const newParams = { ...filters };
+      if (term) newParams.q = term;
+
+      // Remove empty params for URL clarity
+      Object.keys(newParams).forEach(
+        (key) => !newParams[key] && delete newParams[key],
+      );
+
+      setSearchParams(newParams);
+      fetchPapers(term, filters);
     }, 400);
 
     return () => clearTimeout(debounceRef.current);
-  }, [searchTerm]);
+  }, [searchTerm, filters]);
 
-  const fetchPapers = async (term = "") => {
+  const fetchPapers = async (term = "", currentFilters = filters) => {
     setLoading(true);
     try {
-      const params = {};
+      const params = { ...currentFilters };
       if (term) params.q = term;
+
+      // Clean empty filters
+      Object.keys(params).forEach((key) => {
+        if (!params[key]) delete params[key];
+      });
+
       const response = await api.get("/papers", { params });
       setPapers(response.data);
     } catch (error) {
@@ -68,8 +94,13 @@ const SearchPage = () => {
     setSearchTerm(e.target.value);
   };
 
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
   const handleClearSearch = () => {
     setSearchTerm("");
+    setFilters({ year: "", semester: "", exam_type: "" });
     setSearchParams({});
     setIsActive(false);
     setPapers([]);
@@ -77,8 +108,14 @@ const SearchPage = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (!searchTerm.trim()) return;
-    fetchPapers(searchTerm.trim());
+    if (
+      !searchTerm.trim() &&
+      !filters.year &&
+      !filters.semester &&
+      !filters.exam_type
+    )
+      return;
+    fetchPapers(searchTerm.trim(), filters);
   };
 
   /* ─── Action handlers ─── */
@@ -198,7 +235,7 @@ const SearchPage = () => {
         {/* ─── LANDING STATE (no search yet) ─── */}
         {!isActive && (
           <div
-            className="relative z-10 flex flex-col items-center justify-center w-full px-4"
+            className="relative z-10 flex flex-col items-center justify-center w-full px-4 pb-32 md:pb-48"
             style={{ flex: 1, minHeight: "calc(100vh - 72px)" }}
           >
             <h1
@@ -234,11 +271,12 @@ const SearchPage = () => {
                   </span>
                   <input
                     type="text"
-                    className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base"
+                    className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base cursor-text"
                     placeholder="Search by course code or course name"
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    autoFocus
+                    onClick={() => setIsActive(true)}
+                    onFocus={() => setIsActive(true)}
                   />
                 </div>
               </div>
@@ -297,29 +335,69 @@ const SearchPage = () => {
                 )}
               </form>
 
-              {/* Filter pills */}
+              {/* Filter Dropdowns */}
               <div className="flex gap-3 mt-4">
-                {["Year", "Sem", "Exam Type"].map((f) => (
-                  <button
-                    key={f}
-                    className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 flex items-center gap-1.5 hover:bg-gray-50"
-                  >
-                    {f}{" "}
-                    <svg
-                      className="w-3 h-3 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                ))}
+                <select
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer transition-colors"
+                  value={filters.year}
+                  onChange={(e) => handleFilterChange("year", e.target.value)}
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 0.7rem center",
+                    backgroundSize: "1em",
+                  }}
+                >
+                  <option value="">Year</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                </select>
+
+                <select
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer transition-colors"
+                  value={filters.semester}
+                  onChange={(e) =>
+                    handleFilterChange("semester", e.target.value)
+                  }
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 0.7rem center",
+                    backgroundSize: "1em",
+                  }}
+                >
+                  <option value="">Sem</option>
+                  <option value="1">1st Sem</option>
+                  <option value="2">2nd Sem</option>
+                  <option value="3">3rd Sem</option>
+                  <option value="4">4th Sem</option>
+                  <option value="5">5th Sem</option>
+                  <option value="6">6th Sem</option>
+                  <option value="7">7th Sem</option>
+                  <option value="8">8th Sem</option>
+                </select>
+
+                <select
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer transition-colors"
+                  value={filters.exam_type}
+                  onChange={(e) =>
+                    handleFilterChange("exam_type", e.target.value)
+                  }
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 0.7rem center",
+                    backgroundSize: "1em",
+                  }}
+                >
+                  <option value="">Exam Type</option>
+                  <option value="Mid Sem">Mid Sem</option>
+                  <option value="End Sem">End Sem</option>
+                  <option value="CAT 1">CAT 1</option>
+                  <option value="CAT 2">CAT 2</option>
+                </select>
               </div>
             </div>
 
