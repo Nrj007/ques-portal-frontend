@@ -30,6 +30,13 @@ const LoginModal = () => {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     setError("");
+
+    // Only allow @kristujayanti.com emails
+    if (!email.toLowerCase().endsWith("@kristujayanti.com")) {
+      setError("Only @kristujayanti.com email addresses are allowed.");
+      return;
+    }
+
     setLoading(true);
     const res = await sendOtp(email);
     setLoading(false);
@@ -123,7 +130,7 @@ const LoginModal = () => {
                     type="email"
                     required
                     className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
-                    placeholder="student.id@kristujayanti.edu.in"
+                    placeholder="yourname@kristujayanti.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />

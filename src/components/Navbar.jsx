@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { LogOut, Upload, Menu, X, Heart } from "lucide-react";
+import { LogOut, Upload, Menu, X, Heart, FileText } from "lucide-react";
 import containerLogo from "../assets/Container.png";
 
 const Navbar = () => {
@@ -67,23 +67,45 @@ const Navbar = () => {
                 All Papers
               </Link>
               {user ? (
-                <Link
-                  to="/favourites"
-                  className={`text-sm font-medium transition-colors ${
-                    isFavourites
-                      ? "text-gray-900 font-bold"
-                      : "text-gray-500 hover:text-gray-900"
-                  }`}
-                >
-                  Favorites
-                </Link>
+                <div className="flex items-center gap-6">
+                  <Link
+                    to="/favourites"
+                    className={`text-sm font-medium transition-colors ${
+                      isFavourites
+                        ? "text-gray-900 font-bold"
+                        : "text-gray-500 hover:text-gray-900"
+                    }`}
+                  >
+                    Favorites
+                  </Link>
+                  <Link
+                    to="/request-paper"
+                    className={`text-sm font-medium transition-colors flex items-center gap-1.5 ${
+                      location.pathname === "/request-paper"
+                        ? "text-gray-900 font-bold"
+                        : "text-gray-500 hover:text-gray-900"
+                    }`}
+                  >
+                    <FileText className="w-4 h-4" />
+                    Request Paper
+                  </Link>
+                </div>
               ) : (
-                <button
-                  onClick={openLoginModal}
-                  className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-                >
-                  Favorites
-                </button>
+                <div className="flex items-center gap-6">
+                  <button
+                    onClick={openLoginModal}
+                    className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+                  >
+                    Favorites
+                  </button>
+                  <button
+                    onClick={openLoginModal}
+                    className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1.5"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Request Paper
+                  </button>
+                </div>
               )}
 
               {/* Admin specific links seamlessly integrated */}
@@ -135,13 +157,13 @@ const Navbar = () => {
 
             {user ? (
               <div className="flex items-center gap-3">
-                {/* User icon */}
-                <button
-                  className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
-                  title={user.username}
+                {/* User display */}
+                <div
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100"
+                  title={user.email}
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 text-blue-500"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -153,7 +175,10 @@ const Navbar = () => {
                       d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
                     />
                   </svg>
-                </button>
+                  <span className="text-sm font-semibold text-gray-700">
+                    {user.email ? user.email.split("@")[0] : user.username}
+                  </span>
+                </div>
 
                 {/* Logout icon */}
                 <button
@@ -161,7 +186,7 @@ const Navbar = () => {
                     logout();
                     navigate("/");
                   }}
-                  className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="p-2 text-red-500 hover:text-red-700 transition-colors"
                   title="Logout"
                 >
                   <LogOut className="h-5 w-5" />
@@ -234,23 +259,45 @@ const Navbar = () => {
             </Link>
 
             {user ? (
-              <Link
-                to="/favourites"
-                className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                  isFavourites
-                    ? "text-gray-900 bg-gray-50 font-bold"
-                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                }`}
-              >
-                Favorites
-              </Link>
+              <>
+                <Link
+                  to="/favourites"
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                    isFavourites
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  Favorites
+                </Link>
+                <Link
+                  to="/request-paper"
+                  className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium ${
+                    location.pathname === "/request-paper"
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  <FileText className="w-4 h-4" />
+                  Request Paper
+                </Link>
+              </>
             ) : (
-              <button
-                onClick={openLoginModal}
-                className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-              >
-                Favorites
-              </button>
+              <>
+                <button
+                  onClick={openLoginModal}
+                  className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                >
+                  Favorites
+                </button>
+                <button
+                  onClick={openLoginModal}
+                  className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                >
+                  <FileText className="w-4 h-4" />
+                  Request Paper
+                </button>
+              </>
             )}
 
             {user && user.role === "admin" && (
@@ -304,7 +351,7 @@ const Navbar = () => {
                   <>
                     <div className="flex flex-col">
                       <div className="text-base font-medium leading-none text-gray-800">
-                        {user.username}
+                        {user.email ? user.email.split("@")[0] : user.username}
                       </div>
                       {user.email && (
                         <div className="text-sm mt-1 font-medium leading-none text-gray-500">
