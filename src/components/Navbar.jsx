@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <nav className={navbarClasses}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center relative gap-6">
           {/* Logo */}
           <div className="flex items-center md:flex-1 justify-start">
