@@ -84,7 +84,10 @@ const AnalyticsPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50/50 pb-20 font-sans text-gray-900 tracking-tight">
+    <div
+      className="min-h-screen flex flex-col bg-white pb-20 text-gray-900 tracking-tight"
+      style={{ fontFamily: "'Inter', sans-serif" }}
+    >
       <Navbar />
       <div className="flex-grow w-full px-6 lg:px-12 xl:px-20 pt-28">
         {/* Header */}
@@ -103,7 +106,7 @@ const AnalyticsPage = () => {
         {/* Stats Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Download Stat */}
-          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)] transition-shadow">
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100">
             <div className="flex justify-between items-start mb-6">
               <div className="p-3 bg-blue-50 text-blue-500 rounded-2xl">
                 <Download className="w-6 h-6" strokeWidth={2.5} />
@@ -134,7 +137,7 @@ const AnalyticsPage = () => {
           </div>
 
           {/* Users Stat */}
-          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)] transition-shadow">
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100">
             <div className="flex justify-between items-start mb-6">
               <div className="p-3 bg-purple-50 text-purple-500 rounded-2xl">
                 <Users className="w-6 h-6" strokeWidth={2.5} />
@@ -165,7 +168,7 @@ const AnalyticsPage = () => {
           </div>
 
           {/* Searches Stat */}
-          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)] transition-shadow">
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100">
             <div className="flex justify-between items-start mb-6">
               <div className="p-3 bg-pink-50 text-pink-500 rounded-2xl">
                 <Search className="w-6 h-6" strokeWidth={2.5} />
@@ -196,7 +199,7 @@ const AnalyticsPage = () => {
           </div>
 
           {/* Papers Stat */}
-          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)] transition-shadow">
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100">
             <div className="flex justify-between items-start mb-6">
               <div className="p-3 bg-emerald-50 text-emerald-500 rounded-2xl">
                 <FileText className="w-6 h-6" strokeWidth={2.5} />
@@ -230,7 +233,7 @@ const AnalyticsPage = () => {
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Activity Line Chart */}
-          <div className="lg:col-span-2 bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm relative overflow-hidden">
+          <div className="lg:col-span-2 bg-white rounded-[2rem] p-8 border border-gray-100 relative overflow-hidden">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-lg font-bold text-gray-900 tracking-tight">
                 Activity
@@ -239,7 +242,7 @@ const AnalyticsPage = () => {
                 <button className="px-5 py-2 text-xs font-bold text-gray-400 hover:text-gray-900 rounded-full transition-colors">
                   Daily
                 </button>
-                <button className="px-5 py-2 text-xs font-bold text-indigo-600 bg-white shadow-sm rounded-full transition-colors">
+                <button className="px-5 py-2 text-xs font-bold text-indigo-600 bg-white border border-gray-100 rounded-full transition-colors">
                   Weekly
                 </button>
                 <button className="px-5 py-2 text-xs font-bold text-gray-400 hover:text-gray-900 rounded-full transition-colors">
@@ -298,7 +301,7 @@ const AnalyticsPage = () => {
           </div>
 
           {/* Popular Bar Chart */}
-          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm flex flex-col">
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 flex flex-col">
             <h3 className="text-lg font-bold text-gray-900 tracking-tight mb-8">
               Popular
             </h3>
@@ -344,7 +347,7 @@ const AnalyticsPage = () => {
         {/* Bottom Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Trending Papers List */}
-          <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm">
+          <div className="bg-white rounded-[2rem] p-8 border border-gray-100">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-gray-900 tracking-tight">
                 Trending Papers
@@ -390,7 +393,7 @@ const AnalyticsPage = () => {
           </div>
 
           {/* Most Favorited List (Dark Themed) */}
-          <div className="bg-[#1C1A22] rounded-[2rem] p-8 shadow-xl shadow-red-900/5 relative overflow-hidden flex flex-col">
+          <div className="bg-[#1C1A22] rounded-[2rem] p-8 border border-gray-800 relative overflow-hidden flex flex-col">
             {/* Subtle gradient background element */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
 
