@@ -8,7 +8,12 @@ const Navbar = () => {
   const { user, logout, openLoginModal } = useAuth();
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
   const isHome = location.pathname === "/";
   const isFavourites = location.pathname === "/favourites";
 
@@ -186,8 +191,130 @@ const Navbar = () => {
               </div>
             )}
           </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-500 hover:text-gray-900 focus:outline-none p-2"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0 top-full">
+          <div className="px-4 pt-2 pb-3 space-y-1 flex flex-col">
+            <Link
+              to="/search"
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                !isFavourites && !isHome
+                  ? "text-gray-900 bg-gray-50 font-bold"
+                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+              }`}
+            >
+              All Papers
+            </Link>
+
+            {user ? (
+              <Link
+                to="/favourites"
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  isFavourites
+                    ? "text-gray-900 bg-gray-50 font-bold"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                }`}
+              >
+                Favorites
+              </Link>
+            ) : (
+              <button
+                onClick={openLoginModal}
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+              >
+                Favorites
+              </button>
+            )}
+
+            {user && user.role === "admin" && (
+              <>
+                <Link
+                  to="/admin/manage"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/admin/manage"
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  Manage
+                </Link>
+                <Link
+                  to="/admin"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/admin"
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  Upload
+                </Link>
+                <Link
+                  to="/admin/analytics"
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    location.pathname === "/admin/analytics"
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  Stats
+                </Link>
+              </>
+            )}
+
+            <div className="pt-4 pb-3 border-t border-gray-200">
+              <div className="flex items-center">
+                {user ? (
+                  <>
+                    <div className="flex flex-col">
+                      <div className="text-base font-medium leading-none text-gray-800">
+                        {user.username}
+                      </div>
+                      {user.email && (
+                        <div className="text-sm mt-1 font-medium leading-none text-gray-500">
+                          {user.email}
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => {
+                        logout();
+                        navigate("/");
+                      }}
+                      className="ml-auto bg-white flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none"
+                    >
+                      <LogOut className="h-6 w-6" />
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={openLoginModal}
+                    className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
+                  >
+                    Login
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

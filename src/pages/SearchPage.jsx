@@ -90,12 +90,11 @@ const SearchPage = () => {
     try {
       const response = await api.get(
         `/papers/download/${paper.id}?inline=true`,
-        { responseType: "blob" },
       );
-      const url = window.URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" }),
-      );
-      window.open(url, "_blank");
+
+      // The backend now returns { url: "cloudinary_url" }
+      const fileUrl = response.data.url;
+      window.open(fileUrl, "_blank");
 
       // Update local state to increment views
       setPapers(
@@ -114,16 +113,25 @@ const SearchPage = () => {
       return;
     }
     try {
-      const response = await api.get(`/papers/download/${paper.id}`, {
-        responseType: "blob",
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const response = await api.get(`/papers/download/${paper.id}`);
+
+      // The backend now returns { url: "cloudinary_url" }
+      const fileUrl = response.data.url;
+
+      // Since it's a cross-origin Cloudinary URL, standard <a download> might just navigate.
+      // To force download, we can either fetch it as a blob here, or simply open it.
+      // Let's try downloading it via fetch:
+      const fileRes = await fetch(fileUrl);
+      const blob = await fileRes.blob();
+      const localUrl = window.URL.createObjectURL(blob);
+
       const link = document.createElement("a");
-      link.href = url;
+      link.href = localUrl;
       link.setAttribute("download", `${paper.title}.pdf`);
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(localUrl);
 
       // Update local state to increment downloads
       setPapers(

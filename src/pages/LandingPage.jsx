@@ -88,16 +88,20 @@ const LandingPage = () => {
       return;
     }
     try {
-      const response = await api.get(`/papers/download/${id}`, {
-        responseType: "blob",
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const response = await api.get(`/papers/download/${id}`);
+
+      const fileUrl = response.data.url;
+      const fileRes = await fetch(fileUrl);
+      const blob = await fileRes.blob();
+      const localUrl = window.URL.createObjectURL(blob);
+
       const link = document.createElement("a");
-      link.href = url;
+      link.href = localUrl;
       link.setAttribute("download", `${title}.pdf`);
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(localUrl);
 
       // Update local state for downloads
       setRecentPapers(
@@ -428,13 +432,9 @@ const LandingPage = () => {
                                 try {
                                   const response = await api.get(
                                     `/papers/download/${paper.id}?inline=true`,
-                                    { responseType: "blob" },
                                   );
-                                  const url = window.URL.createObjectURL(
-                                    new Blob([response.data], {
-                                      type: "application/pdf",
-                                    }),
-                                  );
+
+                                  const url = response.data.url;
                                   window.open(url, "_blank");
 
                                   // Update local state for views

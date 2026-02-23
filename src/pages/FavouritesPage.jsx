@@ -58,11 +58,9 @@ const FavouritesPage = () => {
     try {
       const response = await api.get(
         `/papers/download/${paper.id}?inline=true`,
-        { responseType: "blob" },
       );
-      const url = window.URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" }),
-      );
+
+      const url = response.data.url;
       window.open(url, "_blank");
 
       // Update local state to increment views
@@ -78,16 +76,20 @@ const FavouritesPage = () => {
 
   const handleDownload = async (paper) => {
     try {
-      const response = await api.get(`/papers/download/${paper.id}`, {
-        responseType: "blob",
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const response = await api.get(`/papers/download/${paper.id}`);
+      const fileUrl = response.data.url;
+
+      const fileRes = await fetch(fileUrl);
+      const blob = await fileRes.blob();
+      const localUrl = window.URL.createObjectURL(blob);
+
       const link = document.createElement("a");
-      link.href = url;
+      link.href = localUrl;
       link.setAttribute("download", `${paper.title}.pdf`);
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(localUrl);
 
       // Update local state to increment downloads
       setPapers(
