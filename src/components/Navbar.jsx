@@ -40,9 +40,9 @@ const Navbar = () => {
   return (
     <nav className={navbarClasses}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center relative gap-6">
           {/* Logo */}
-          <div className="flex items-center">
+          <div className="flex items-center md:flex-1 justify-start">
             <Link to="/" className="flex items-center gap-2">
               <div className="flex flex-col">
                 <img
@@ -54,8 +54,9 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <div className="flex items-center gap-6 mr-6">
+          {/* Navigation Links */}
+          <div className="hidden md:flex flex-1 justify-center">
+            <div className="flex items-center justify-center gap-6 whitespace-nowrap">
               <Link
                 to="/search"
                 className={`text-sm font-medium transition-colors ${
@@ -102,7 +103,6 @@ const Navbar = () => {
                     onClick={openLoginModal}
                     className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1.5"
                   >
-          
                     Request Paper
                   </button>
                 </div>
@@ -154,7 +154,10 @@ const Navbar = () => {
                 </>
               )}
             </div>
+          </div>
 
+          {/* Profile & Auth */}
+          <div className="hidden md:flex items-center justify-end gap-3 md:flex-1">
             {user ? (
               <div className="flex items-center gap-3">
                 {/* User display */}
