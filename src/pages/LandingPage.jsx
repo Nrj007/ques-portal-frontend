@@ -556,7 +556,16 @@ const LandingPage = () => {
               you find what you need.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
-              <button className="w-full sm:w-auto bg-white text-black px-8 py-3 rounded-full text-[13px] font-bold hover:bg-gray-100 transition-colors">
+              <button
+                onClick={() => {
+                  if (!user) {
+                    openLoginModal();
+                    return;
+                  }
+                  navigate("/request-paper");
+                }}
+                className="w-full sm:w-auto bg-white text-black px-8 py-3 rounded-full text-[13px] font-bold hover:bg-gray-100 transition-colors"
+              >
                 Request Paper
               </button>
               <button className="w-full sm:w-auto bg-transparent border border-gray-600/50 text-white px-8 py-3 rounded-full text-[13px] font-semibold hover:bg-white/10 transition-colors">

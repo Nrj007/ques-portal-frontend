@@ -9,6 +9,8 @@ import AdminPage from "./pages/AdminPage";
 import ManagePapers from "./pages/ManagePapers";
 import FavouritesPage from "./pages/FavouritesPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import RequestPaperPage from "./pages/RequestPaperPage";
+import AdminRequestsPage from "./pages/AdminRequestsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminRoute from "./components/AdminRoute";
 
@@ -25,6 +27,14 @@ function App() {
             element={
               <PrivateRoute>
                 <FavouritesPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/request-paper"
+            element={
+              <PrivateRoute>
+                <RequestPaperPage />
               </PrivateRoute>
             }
           />
@@ -57,6 +67,14 @@ function App() {
             element={
               <AdminRoute>
                 <ManagePapers />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/requests"
+            element={
+              <AdminRoute>
+                <AdminRequestsPage />
               </AdminRoute>
             }
           />

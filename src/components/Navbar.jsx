@@ -119,6 +119,16 @@ const Navbar = () => {
                   >
                     Stats
                   </Link>
+                  <Link
+                    to="/admin/requests"
+                    className={`text-sm font-medium transition-colors ${
+                      location.pathname === "/admin/requests"
+                        ? "text-gray-900 font-bold"
+                        : "text-gray-500 hover:text-gray-900"
+                    }`}
+                  >
+                    Requests
+                  </Link>
                 </>
               )}
             </div>
@@ -274,6 +284,16 @@ const Navbar = () => {
                   }`}
                 >
                   Stats
+                </Link>
+                <Link
+                  to="/admin/requests"
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                    location.pathname === "/admin/requests"
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  Requests
                 </Link>
               </>
             )}

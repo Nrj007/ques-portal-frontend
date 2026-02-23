@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
-import { Heart, Download, Eye, BookOpen } from "lucide-react";
+import { Heart, Download, Eye, BookOpen, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
@@ -10,6 +10,7 @@ const FavouritesPage = () => {
   const { user } = useAuth();
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchFavourites();
@@ -120,6 +121,20 @@ const FavouritesPage = () => {
             </p>
           </div>
 
+          {/* Search Bar */}
+          {!loading && papers.length > 0 && (
+            <div className="max-w-md mb-6 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search your favourites..."
+                className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-300 bg-white"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          )}
+
           {/* Skeleton loaders */}
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -141,73 +156,84 @@ const FavouritesPage = () => {
             </div>
           ) : papers.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {papers.map((paper) => (
-                <div
-                  key={paper.id}
-                  className="group bg-white rounded-4xl px-6 py-5 border border-gray-100 hover:shadow-md flex flex-col"
-                >
-                  {/* Top: course code + year */}
-                  <div className="flex justify-between items-start mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="p-1.5 bg-emerald-50 rounded-lg">
-                        <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
-                      </span>
-                      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                        {paper.course_code || paper.course || "—"}
-                      </span>
+              {papers
+                .filter((paper) => {
+                  if (!searchTerm.trim()) return true;
+                  const q = searchTerm.toLowerCase();
+                  return (
+                    (paper.title && paper.title.toLowerCase().includes(q)) ||
+                    (paper.course_code &&
+                      paper.course_code.toLowerCase().includes(q)) ||
+                    (paper.course && paper.course.toLowerCase().includes(q))
+                  );
+                })
+                .map((paper) => (
+                  <div
+                    key={paper.id}
+                    className="group bg-white rounded-4xl px-6 py-5 border border-gray-100 hover:shadow-md flex flex-col"
+                  >
+                    {/* Top: course code + year */}
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="p-1.5 bg-emerald-50 rounded-lg">
+                          <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+                        </span>
+                        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                          {paper.course_code || paper.course || "—"}
+                        </span>
+                      </div>
+                      {paper.year && (
+                        <span className="text-sm font-bold text-emerald-500">
+                          {paper.year}
+                        </span>
+                      )}
                     </div>
-                    {paper.year && (
-                      <span className="text-sm font-bold text-emerald-500">
-                        {paper.year}
-                      </span>
-                    )}
-                  </div>
 
-                  {/* Title */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-1 leading-snug group-hover:text-gray-700 line-clamp-2">
-                    {paper.title}
-                  </h3>
+                    {/* Title */}
+                    <h3 className="text-lg font-bold text-gray-900 mb-1 leading-snug group-hover:text-gray-700 line-clamp-2">
+                      {paper.title}
+                    </h3>
 
-                  {/* Exam type + semester */}
-                  <p className="text-xs text-gray-400 mb-6">
-                    {paper.exam_type || "Exam"} • Semester{" "}
-                    {paper.semester || "—"}
-                  </p>
+                    {/* Exam type + semester */}
+                    <p className="text-xs text-gray-400 mb-6">
+                      {paper.exam_type || "Exam"} • Semester{" "}
+                      {paper.semester || "—"}
+                    </p>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-2 mt-auto mb-4">
-                    <button
-                      onClick={() => handleView(paper)}
-                      className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
-                    >
-                      <Eye className="w-4 h-4" /> View
-                    </button>
-                    <button
-                      onClick={() => handleDownload(paper)}
-                      className="p-3 border border-gray-200 rounded-full hover:bg-gray-50 text-gray-400 hover:text-gray-600"
-                      title="Download"
-                    >
-                      <Download className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => toggleFavourite(paper.id)}
-                      className="p-3 bg-red-50 border border-red-100 text-red-500 rounded-full hover:bg-red-100"
-                      title="Remove from favourites"
-                    >
-                      <Heart className="w-4 h-4 fill-current" />
-                    </button>
-                  </div>
-
-                  {/* Tiny stats */}
-                  <div className="flex justify-between px-2 text-[11px] text-gray-400 font-medium">
-                    <div className="flex gap-4">
-                      <span>{paper.downloads || 0} DLs</span>
-                      <span>{paper.views || 0} Views</span>
+                    {/* Actions */}
+                    <div className="flex items-center gap-2 mt-auto mb-4">
+                      <button
+                        onClick={() => handleView(paper)}
+                        className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
+                      >
+                        <Eye className="w-4 h-4" /> View
+                      </button>
+                      <button
+                        onClick={() => handleDownload(paper)}
+                        className="p-3 border border-gray-200 rounded-full hover:bg-gray-50 text-gray-400 hover:text-gray-600"
+                        title="Download"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => toggleFavourite(paper.id)}
+                        className="p-3 bg-red-50 border border-red-100 text-red-500 rounded-full hover:bg-red-100"
+                        title="Remove from favourites"
+                      >
+                        <Heart className="w-4 h-4 fill-current" />
+                      </button>
                     </div>
-                    <span>{paper.favorites_count || 0} Favs</span>
+
+                    {/* Tiny stats */}
+                    <div className="flex justify-between px-2 text-[11px] text-gray-400 font-medium">
+                      <div className="flex gap-4">
+                        <span>{paper.downloads || 0} DLs</span>
+                        <span>{paper.views || 0} Views</span>
+                      </div>
+                      <span>{paper.favorites_count || 0} Favs</span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           ) : (
             /* Empty state */
