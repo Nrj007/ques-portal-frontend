@@ -369,14 +369,18 @@ const SearchPage = () => {
                   }}
                 >
                   <option value="">Sem</option>
-                  <option value="1">1st Sem</option>
-                  <option value="2">2nd Sem</option>
-                  <option value="3">3rd Sem</option>
-                  <option value="4">4th Sem</option>
-                  <option value="5">5th Sem</option>
-                  <option value="6">6th Sem</option>
-                  <option value="7">7th Sem</option>
-                  <option value="8">8th Sem</option>
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => {
+                    let suffix = "th";
+                    if (s === 1) suffix = "st";
+                    if (s === 2) suffix = "nd";
+                    if (s === 3) suffix = "rd";
+                    return (
+                      <option key={s} value={s.toString()}>
+                        {s}
+                        {suffix} Sem
+                      </option>
+                    );
+                  })}
                 </select>
 
                 <select
@@ -393,8 +397,9 @@ const SearchPage = () => {
                   }}
                 >
                   <option value="">Exam Type</option>
-                  <option value="Mid Sem">Mid Sem</option>
-                  <option value="End Sem">End Sem</option>
+                  <option value="Mid Term">Mid Term</option>
+                  <option value="End Semester">End Semester</option>
+                  <option value="Supplementary">Supplementary</option>
                   <option value="CAT 1">CAT 1</option>
                   <option value="CAT 2">CAT 2</option>
                 </select>
