@@ -7,6 +7,14 @@ import Footer from "../components/Footer";
 import { useAuth } from "../context/AuthContext";
 import LoginModal from "../components/LoginModal";
 
+const iconColors = [
+  { bg: "bg-blue-50/80", text: "text-blue-500" },
+  { bg: "bg-purple-50/80", text: "text-purple-500" },
+  { bg: "bg-pink-50/80", text: "text-pink-500" },
+  { bg: "bg-orange-50/80", text: "text-orange-500" },
+  { bg: "bg-emerald-50/80", text: "text-emerald-500" },
+];
+
 const SearchPage = () => {
   const { user, openLoginModal } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
