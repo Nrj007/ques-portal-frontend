@@ -88,7 +88,7 @@ const ManagePapers = () => {
 
   return (
     <div
-      className="min-h-screen"
+      className="min-h-screen flex flex-col"
       style={{ background: "#ffffff", fontFamily: "'Inter', sans-serif" }}
     >
       <Navbar />

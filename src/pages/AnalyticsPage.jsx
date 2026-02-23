@@ -84,7 +84,7 @@ const AnalyticsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-20 font-sans text-gray-900 tracking-tight">
+    <div className="min-h-screen flex flex-col bg-gray-50/50 pb-20 font-sans text-gray-900 tracking-tight">
       <Navbar />
       <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-28">
         {/* Header */}
