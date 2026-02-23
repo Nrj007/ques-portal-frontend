@@ -234,12 +234,9 @@ const SearchPage = () => {
 
         {/* ─── LANDING STATE (no search yet) ─── */}
         {!isActive && (
-          <div
-            className="relative z-10 flex flex-col items-center justify-center w-full px-4 pb-32 md:pb-48"
-            style={{ flex: 1, minHeight: "calc(100vh - 72px)" }}
-          >
+          <div className="w-full px-4 pt-16 md:pt-24 pb-32">
             <h1
-              className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8"
+              className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 text-center"
               style={{ letterSpacing: "-0.02em" }}
             >
               Search in{" "}
@@ -257,7 +254,10 @@ const SearchPage = () => {
             </h1>
 
             {/* Search bar with gradient border */}
-            <form onSubmit={handleSearchSubmit} className="w-full max-w-2xl">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="w-full max-w-2xl mx-auto"
+            >
               <div
                 className="rounded-full p-[1.5px]"
                 style={{
@@ -283,7 +283,7 @@ const SearchPage = () => {
             </form>
 
             {/* Tabs */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-3 mt-6 justify-center">
               {["Quick", "Organized", "Unified", "Accessible"].map((tab) => (
                 <button
                   key={tab}
@@ -303,10 +303,10 @@ const SearchPage = () => {
 
         {/* ─── SEARCH RESULTS STATE ─── */}
         {isActive && (
-          <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-8 pb-16">
+          <div className="w-full max-w-6xl mx-auto px-4 pt-8 pb-16">
             {/* Compact search bar + filter card */}
             <div
-              className="bg-white rounded-3xl max-w-2xl mx-auto  px-6 py-5 mb-8"
+              className="bg-white rounded-3xl max-w-2xl mx-auto px-6 py-5 mb-8"
               style={{
                 boxShadow:
                   "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
