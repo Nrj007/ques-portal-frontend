@@ -252,75 +252,8 @@ const SearchPage = () => {
             </span>
           </h1>
 
-          {/* ─── LANDING STATE (no search yet) ─── */}
-          <div
-            className={`w-full pb-32 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              !isActive
-                ? "opacity-100 translate-y-0 relative z-10"
-                : "opacity-0 -translate-y-8 pointer-events-none absolute inset-x-0 top-32"
-            }`}
-          >
-            {/* Search bar with gradient border */}
-            <form
-              onSubmit={handleSearchSubmit}
-              className="w-full max-w-2xl mx-auto"
-            >
-              <div
-                className="rounded-full p-[1.5px]"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
-                }}
-              >
-                <div className="relative bg-white rounded-full transition-shadow duration-300 hover:shadow-lg hover:shadow-indigo-500/10 focus-within:shadow-lg focus-within:shadow-indigo-500/20">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-                    <Search className="h-5 w-5 text-gray-400" />
-                  </span>
-                  <input
-                    type="text"
-                    className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base cursor-text"
-                    placeholder="Search by course code or course name"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    onClick={() => setIsActive(true)}
-                    onFocus={() => setIsActive(true)}
-                  />
-                </div>
-              </div>
-            </form>
-
-            {/* Tabs */}
-            <div
-              className={`flex gap-3 mt-6 justify-center transition-all duration-500 delay-100 ${
-                !isActive
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              {["Quick", "Organized", "Unified", "Accessible"].map((tab) => (
-                <button
-                  key={tab}
-                  className="px-5 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-white/60 transition-colors"
-                  style={{
-                    borderRadius: "14px",
-                    border: "1px solid #FFF",
-                    background: "rgba(255, 255, 255, 0.40)",
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ─── SEARCH RESULTS STATE ─── */}
-          <div
-            className={`w-full pt-8 pb-16 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              isActive
-                ? "opacity-100 translate-y-0 relative z-10"
-                : "opacity-0 -translate-y-8 pointer-events-none absolute inset-x-0 top-0"
-            }`}
-          >
+          {/* ─── UNIFIED SEARCH BOX & RESULTS ─── */}
+          <div className="w-full pt-4 pb-16 relative z-10 transition-all duration-700 ease-out">
             {/* Compact search bar + filter card */}
             <div
               className={`bg-white rounded-3xl max-w-2xl mx-auto px-6 py-5 mb-8 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
@@ -329,30 +262,40 @@ const SearchPage = () => {
                   "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
               }}
             >
-              <form onSubmit={handleSearchSubmit} className="relative">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-1 pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </span>
-                <input
-                  type="text"
-                  className="w-full pl-8 pr-10 py-2 bg-transparent placeholder-gray-400 focus:outline-none text-base text-gray-800 border-b border-gray-100 focus:border-gray-200"
-                  placeholder="Search by course code or course name"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  autoFocus={isActive}
-                />
-                {searchTerm && (
-                  <button
-                    type="button"
-                    onClick={handleClearSearch}
-                    className="absolute inset-y-0 right-0 pr-1 flex items-center text-gray-400 hover:text-gray-600 transition-colors group"
-                    title="Clear search"
-                  >
-                    <div className="bg-gray-100 rounded-full p-1 group-hover:bg-gray-200 transition-colors">
-                      <X className="h-4 w-4" />
-                    </div>
-                  </button>
-                )}
+              <form onSubmit={handleSearchSubmit} className="relative mb-6">
+                <div
+                  className="rounded-full p-[1.5px]"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
+                  }}
+                >
+                  <div className="relative bg-white rounded-full transition-shadow duration-300 shadow-sm focus-within:shadow-lg focus-within:shadow-indigo-500/20">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
+                      <Search className="h-5 w-5 text-gray-400" />
+                    </span>
+                    <input
+                      type="text"
+                      className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base text-gray-800 cursor-text"
+                      placeholder="Search by course code or course name"
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      autoFocus
+                    />
+                    {searchTerm && (
+                      <button
+                        type="button"
+                        onClick={handleClearSearch}
+                        className="absolute inset-y-0 right-0 pr-5 flex items-center text-gray-400 hover:text-gray-600 transition-colors group"
+                        title="Clear search"
+                      >
+                        <div className="bg-gray-100 rounded-full p-1 group-hover:bg-gray-200 transition-colors">
+                          <X className="h-4 w-4" />
+                        </div>
+                      </button>
+                    )}
+                  </div>
+                </div>
               </form>
 
               {/* Filter Dropdowns */}
