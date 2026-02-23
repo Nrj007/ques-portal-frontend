@@ -196,71 +196,90 @@ const ManagePapers = () => {
                   <div
                     ref={isLast ? lastElementRef : null}
                     key={paper.id}
-                    className="group bg-white rounded-4xl px-6 py-5 border border-gray-100 hover:shadow-md flex flex-col"
+                    className="group bg-white rounded-[2rem] p-6 border border-gray-100/80 hover:shadow-xl hover:shadow-gray-200/50 flex flex-col transition-all"
                   >
                     {/* Top: course code + year */}
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex items-center gap-2">
-                        <span className="p-1.5 bg-emerald-50 rounded-lg">
-                          <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
-                        </span>
-                        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                          {paper.course_code || "—"}
+                    <div className="flex justify-between items-center mb-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-emerald-50/80 rounded-2xl flex items-center justify-center">
+                          <BookOpen className="w-5 h-5 text-emerald-600" />
+                        </div>
+                        <span className="text-[13px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
+                          {paper.course_code || paper.course || "—"}
                         </span>
                       </div>
                       {paper.year && (
-                        <span className="text-sm font-bold text-emerald-500">
-                          {paper.year}
-                        </span>
+                        <div className="px-3.5 py-1.5 bg-emerald-50/80 rounded-full">
+                          <span className="text-[13px] font-bold text-emerald-600">
+                            {paper.year}
+                          </span>
+                        </div>
                       )}
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-lg font-bold text-gray-900 mb-1 leading-snug group-hover:text-gray-700 line-clamp-2">
+                    <h3 className="text-[22px] font-bold text-gray-900 mb-2 leading-tight group-hover:text-gray-800 line-clamp-2">
                       {paper.title}
                     </h3>
 
                     {/* Exam type + semester */}
-                    <p className="text-xs text-gray-400 mb-6">
+                    <p className="text-[15px] font-medium text-gray-500 mb-8">
                       {paper.exam_type || "Exam"} • Semester{" "}
                       {paper.semester || "—"}
                     </p>
 
                     {/* Actions */}
-                    <div className="flex items-center gap-2 mt-auto mb-4">
+                    <div className="flex items-center gap-3 mt-auto">
                       <button
-                        onClick={() => handleView(paper.id)}
-                        className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleView(paper.id);
+                        }}
+                        className="flex-1 bg-[#141414] hover:bg-black text-white py-3.5 rounded-[18px] text-[15px] font-semibold flex items-center justify-center gap-2.5 transition-colors"
                       >
-                        <Eye className="w-4 h-4" /> View
+                        <Eye className="w-5 h-5 text-gray-300" /> View
                       </button>
-                      <button
-                        onClick={() => handleDownload(paper.id, paper.title)}
-                        className="p-3 border border-gray-200 rounded-full hover:bg-gray-50 text-gray-400 hover:text-gray-600"
-                        title="Download"
-                      >
-                        <Download className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(paper.id)}
-                        className="p-3 border border-red-100 rounded-full bg-red-50 text-red-400 hover:bg-red-100"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleFavorite(paper.id)}
-                        className={`p-3 border rounded-full ${
-                          paper.is_favorite
-                            ? "bg-red-50 border-red-100 text-red-500"
-                            : "border-gray-200 text-gray-400 hover:bg-red-50 hover:text-red-400 hover:border-red-100"
-                        }`}
-                        title={paper.is_favorite ? "Unfavorite" : "Favorite"}
-                      >
-                        <Heart
-                          className={`w-4 h-4 ${paper.is_favorite ? "fill-current" : ""}`}
-                        />
-                      </button>
+
+                      <div className="flex gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDownload(paper.id, paper.title);
+                          }}
+                          className="w-[46px] h-[46px] bg-gray-50/80 hover:bg-gray-100 rounded-[16px] flex items-center justify-center transition-colors"
+                          title="Download"
+                        >
+                          <Download className="w-4 h-4 text-gray-500" />
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleFavorite(paper.id);
+                          }}
+                          className={`w-[46px] h-[46px] rounded-[16px] flex items-center justify-center transition-colors ${
+                            paper.is_favorite
+                              ? "bg-red-50 text-red-500 hover:bg-red-100"
+                              : "bg-gray-50/80 text-gray-400 hover:bg-gray-100"
+                          }`}
+                          title={paper.is_favorite ? "Unfavorite" : "Favorite"}
+                        >
+                          <Heart
+                            className={`w-4 h-4 ${paper.is_favorite ? "fill-current" : ""}`}
+                          />
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(paper.id);
+                          }}
+                          className="w-[46px] h-[46px] bg-red-50 hover:bg-red-100 text-red-400 rounded-[16px] flex items-center justify-center transition-colors border border-red-100/50"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
