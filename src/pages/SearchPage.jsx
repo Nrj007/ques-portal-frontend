@@ -235,32 +235,31 @@ const SearchPage = () => {
 
         {/* ─── SEARCH & CONTENT AREA ─── */}
         <div className="relative w-full max-w-6xl mx-auto px-4">
+          <h1
+            className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 mt-16 md:mt-24 text-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{ letterSpacing: "-0.02em" }}
+          >
+            Search in{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Q-Vault
+            </span>
+          </h1>
+
           {/* ─── LANDING STATE (no search yet) ─── */}
           <div
-            className={`w-full pt-16 md:pt-24 pb-32 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`w-full pb-32 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
               !isActive
                 ? "opacity-100 translate-y-0 relative z-10"
-                : "opacity-0 -translate-y-8 pointer-events-none absolute inset-x-0 top-0"
+                : "opacity-0 -translate-y-8 pointer-events-none absolute inset-x-0 top-32"
             }`}
           >
-            <h1
-              className="text-4xl md:text-5xl font-semibold text-[#9B9B9B] tracking-tight mb-8 text-center"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Search in{" "}
-              <span
-                style={{
-                  background:
-                    "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Q-Vault
-              </span>
-            </h1>
-
             {/* Search bar with gradient border */}
             <form
               onSubmit={handleSearchSubmit}
