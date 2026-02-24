@@ -159,22 +159,48 @@ const ManagePapers = () => {
           </div>
 
           {/* Search Bar */}
-          <div
-            className="bg-white rounded-3xl max-w-2xl px-6 py-5 mb-8"
-            style={{
-              boxShadow:
-                "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
-            }}
-          >
-            <div className="relative">
-              <Search className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search papers to manage..."
-                className="w-full pl-8 pr-4 py-2 bg-transparent border-b border-gray-100 focus:border-gray-300 focus:outline-none text-base text-gray-800 placeholder-gray-400"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <div className="w-full mb-8 relative z-10">
+            <div
+              className={`bg-white rounded-3xl max-w-2xl px-6 py-5 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
+              style={{
+                boxShadow:
+                  "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
+              }}
+            >
+              <form onSubmit={(e) => e.preventDefault()} className="relative">
+                <div
+                  className="rounded-full p-[1.5px]"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, #4f46e5 0%, #e11d48 100%)",
+                  }}
+                >
+                  <div className="relative bg-white rounded-full transition-shadow duration-300 shadow-sm focus-within:shadow-lg focus-within:shadow-indigo-500/20">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
+                      <Search className="h-5 w-5 text-gray-400" />
+                    </span>
+                    <input
+                      type="text"
+                      className="w-full pl-12 pr-14 py-4 rounded-full bg-transparent placeholder-gray-400 focus:outline-none text-base text-gray-800 cursor-text"
+                      placeholder="Search papers to manage..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {searchTerm && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchTerm("")}
+                        className="absolute inset-y-0 right-0 pr-5 flex items-center text-gray-400 hover:text-gray-600 transition-colors group"
+                        title="Clear search"
+                      >
+                        <div className="bg-gray-100 rounded-full p-1 group-hover:bg-gray-200 transition-colors">
+                          <X className="h-4 w-4" />
+                        </div>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
 

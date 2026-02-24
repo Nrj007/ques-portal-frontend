@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import containerLogo from "../assets/Container.png";
+import Navbar from "../components/Navbar";
 
 // Icon colors for paper cards — cycles through a set
 const iconColors = [
@@ -35,7 +35,6 @@ const LandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -145,137 +144,7 @@ const LandingPage = () => {
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* ── NAVBAR ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <div className="leading-none flex flex-col justify-center max-w-[200px] md:max-w-[250px]">
-              <img
-                src={containerLogo}
-                alt="Kristu Jayanti"
-                className="w-auto object-contain"
-              />
-            </div>
-          </Link>
-
-          {/* Desktop nav (hidden on mobile) */}
-          <div className="hidden md:flex items-center gap-5">
-            {user ? (
-              <div className="flex items-center gap-4">
-                <Link
-                  to="/favourites"
-                  className="text-gray-500 hover:text-red-500 transition-colors"
-                  title="My Favourites"
-                >
-                  <Heart className="w-[18px] h-[18px]" />
-                </Link>
-                <div
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100"
-                  title={user.email}
-                >
-                  <User className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm font-semibold text-gray-700">
-                    {user.email ? user.email.split("@")[0] : user.username}
-                  </span>
-                </div>
-                <button
-                  onClick={() => {
-                    logout();
-                  }}
-                  className="p-1.5 text-gray-400 hover:text-red-500 transition-colors ml-1"
-                  title="Log out"
-                >
-                  <LogOut className="w-[18px] h-[18px]" />
-                </button>
-              </div>
-            ) : (
-              <>
-                <button
-                  onClick={openLoginModal}
-                  className="text-xs text-gray-600 hover:text-black font-semibold transition-colors"
-                >
-                  Log In
-                </button>
-                <button
-                  onClick={openLoginModal}
-                  className="text-gray-500 hover:text-black transition-colors"
-                  title="Login to view profile"
-                >
-                  <User className="w-[18px] h-[18px]" />
-                </button>
-                <button
-                  onClick={openLoginModal}
-                  className="text-gray-500 hover:text-black transition-colors"
-                  title="Login to view favourites"
-                >
-                  <Heart className="w-[18px] h-[18px]" />
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* Hamburger button (mobile only) */}
-          <button
-            className="md:hidden text-gray-700 hover:text-black transition-colors p-1"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        </div>
-
-        {/* Mobile menu panel */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            mobileMenuOpen ? "max-h-60 border-t border-gray-100" : "max-h-0"
-          }`}
-        >
-          <div className="px-6 py-4 bg-white/95 backdrop-blur-md flex flex-col gap-3">
-            {user ? (
-              <>
-                <Link
-                  to="/favourites"
-                  className="flex items-center gap-3 py-2 text-sm text-gray-700 hover:text-red-500 font-medium transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Heart className="w-4 h-4" />
-                  My Favourites
-                </Link>
-                <div className="flex items-center gap-3 py-2 text-sm text-gray-700">
-                  <User className="w-4 h-4" />
-                  {user.username || user.email}
-                </div>
-                <button
-                  onClick={() => {
-                    logout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-3 py-2 text-sm text-red-500 hover:text-red-600 font-medium transition-colors"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Log out
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => {
-                    openLoginModal();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full text-center bg-gray-900 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-black transition-colors"
-                >
-                  Log In
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* ── HERO ── */}
       <section className="pt-32 pb-16 px-6 lg:px-8">
