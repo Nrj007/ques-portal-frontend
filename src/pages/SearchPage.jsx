@@ -320,7 +320,7 @@ const SearchPage = () => {
           <div className="w-full pt-4 pb-16 relative z-10 transition-all duration-700 ease-out">
             {/* Compact search bar + filter card */}
             <div
-              className={`bg-white rounded-3xl max-w-2xl mx-auto px-6 py-5 mb-8 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
+              className={`bg-white rounded-3xl max-w-4xl mx-auto px-6 py-5 mb-8 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
               style={{
                 boxShadow:
                   "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
@@ -363,7 +363,7 @@ const SearchPage = () => {
               </form>
 
               {/* Filter Dropdowns */}
-              <div className="flex flex-wrap gap-3 mt-4 justify-center items-center">
+              <div className="flex gap-3 mt-4 justify-start lg:justify-center items-center overflow-x-auto pb-2 scrollbar-hide">
                 <select
                   className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
                   value={filters.year}

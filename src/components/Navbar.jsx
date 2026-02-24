@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { LogOut, Upload, Menu, X, Heart, FileText } from "lucide-react";
+import { LogOut, LogIn, Upload, Menu, X, Heart, FileText } from "lucide-react";
 import containerLogo from "../assets/Container.png";
 
 const Navbar = () => {
@@ -87,7 +87,6 @@ const Navbar = () => {
                         : "text-gray-500 hover:text-gray-900"
                     }`}
                   >
-                   
                     Request Paper
                   </Link>
                 </div>
@@ -224,7 +223,7 @@ const Navbar = () => {
                   className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
                   title="Login"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <LogIn className="h-5 w-5" />
                 </button>
               </div>
             )}
@@ -281,7 +280,6 @@ const Navbar = () => {
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   }`}
                 >
-            
                   Request Paper
                 </Link>
               </>
