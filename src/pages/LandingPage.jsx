@@ -36,9 +36,32 @@ const LandingPage = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     fetchRecentPapers();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      const distanceToBottom = documentHeight - (scrolled + windowHeight);
+      const startDistance = 400; // Start showing gradient 400px from bottom
+
+      if (distanceToBottom < startDistance) {
+        const progress = 1 - Math.max(0, distanceToBottom) / startDistance;
+        setScrollProgress(Math.min(1, Math.max(0, progress)));
+      } else {
+        setScrollProgress(0);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const fetchRecentPapers = async () => {
@@ -593,10 +616,23 @@ const LandingPage = () => {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="py-8 text-center text-[12px] text-gray-400 border-t border-gray-100 font-medium px-4">
+      <footer className="py-8 text-center text-[12px] text-gray-400 border-t border-gray-100 font-medium px-4 relative z-10">
         © 2026 Designed & Developed by Kristu Jayanti Software Development
         Centre. All rights reserved.
       </footer>
+
+      {/* ── BOTTOM GRADIENT ANIMATION ── */}
+      <div
+        className="fixed bottom-0 left-0 right-0 pointer-events-none z-0"
+        style={{
+          height: "500px",
+          background:
+            "linear-gradient(to top, rgba(21, 93, 252, 0.08) 0%, rgba(25, 161, 230, 0.03) 50%, rgba(255, 255, 255, 0) 100%)",
+          opacity: scrollProgress,
+          transform: `translateY(${(1 - scrollProgress) * 50}px)`,
+          transition: "transform 0.1s ease-out, opacity 0.1s ease-out",
+        }}
+      />
     </div>
   );
 };

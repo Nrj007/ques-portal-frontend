@@ -340,7 +340,7 @@ const SearchPage = () => {
               </form>
 
               {/* Filter Dropdowns */}
-              <div className="flex flex-wrap gap-3 mt-4">
+              <div className="flex flex-wrap gap-3 mt-4 justify-center items-center">
                 <select
                   className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
                   value={filters.year}
