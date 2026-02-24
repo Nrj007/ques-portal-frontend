@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const navbarClasses = `fixed w-full z-50 transition-all duration-300 ${
     isHome && !isScrolled
-      ? "bg-transparent py-4"
+      ? "bg-white  py-2 border-b border-gray-100"
       : "bg-white  py-2 border-b border-gray-100"
   }`;
 
