@@ -69,15 +69,15 @@ const TeamModal = ({ isOpen, onClose }) => {
       />
 
       {/* Modal */}
-      <div className="relative bg-white w-full max-w-4xl max-h-[90vh] rounded-[32px] shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-300">
+      <div className="relative bg-white w-full max-w-4xl max-h-[75vh] rounded-[32px] shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-300">
+        {" "}
         <button
           onClick={onClose}
           className="absolute top-6 right-6 p-2 bg-gray-50 hover:bg-gray-100 text-gray-500 rounded-full transition-colors z-10"
         >
           <X className="w-5 h-5" />
         </button>
-
-        <div className="overflow-y-auto p-8 md:p-12 flex-grow overflow-x-hidden rounded-[32px]">
+        <div className="overflow-y-auto p-8 md:p-12 flex-grow overflow-x-hidden rounded-[32px] scrollbar-hide">
           {/* Header */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-[#111] text-white px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-wide mb-6 shadow-sm">
