@@ -65,6 +65,18 @@ const FavouritesPage = () => {
       const response = await api.post(`/papers/favorite/${paperId}`);
       if (!response.data.isFavorite) {
         setPapers(papers.filter((p) => p.id !== paperId));
+      } else {
+        setPapers(
+          papers.map((p) =>
+            p.id === paperId
+              ? {
+                  ...p,
+                  favorites_count:
+                    Math.max(0, parseInt(p.favorites_count || 0)) + 1,
+                }
+              : p,
+          ),
+        );
       }
     } catch (error) {
       console.error("Error toggling favourite:", error);

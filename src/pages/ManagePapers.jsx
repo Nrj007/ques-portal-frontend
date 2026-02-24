@@ -74,7 +74,15 @@ const ManagePapers = () => {
       const response = await api.post(`/papers/favorite/${id}`);
       setPapers(
         papers.map((p) =>
-          p.id === id ? { ...p, is_favorite: response.data.isFavorite } : p,
+          p.id === id
+            ? {
+                ...p,
+                is_favorite: response.data.isFavorite,
+                favorites_count: response.data.isFavorite
+                  ? Math.max(0, parseInt(p.favorites_count || 0)) + 1
+                  : Math.max(0, parseInt(p.favorites_count || 0)) - 1,
+              }
+            : p,
         ),
       );
     } catch (error) {

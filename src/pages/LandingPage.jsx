@@ -359,8 +359,18 @@ const LandingPage = () => {
                                               response.data.isFavorite,
                                             favorites_count: response.data
                                               .isFavorite
-                                              ? p.favorites_count + 1
-                                              : p.favorites_count - 1,
+                                              ? Math.max(
+                                                  0,
+                                                  parseInt(
+                                                    p.favorites_count || 0,
+                                                  ),
+                                                ) + 1
+                                              : Math.max(
+                                                  0,
+                                                  parseInt(
+                                                    p.favorites_count || 0,
+                                                  ),
+                                                ) - 1,
                                           }
                                         : p,
                                     ),
