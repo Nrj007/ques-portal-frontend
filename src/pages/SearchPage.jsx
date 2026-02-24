@@ -23,6 +23,8 @@ const SearchPage = () => {
     year: searchParams.get("year") || "",
     semester: searchParams.get("semester") || "",
     exam_type: searchParams.get("exam_type") || "",
+    discipline: searchParams.get("discipline") || "",
+    education_type: searchParams.get("education_type") || "",
   });
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,10 +57,18 @@ const SearchPage = () => {
     const y = searchParams.get("year") || "";
     const s = searchParams.get("semester") || "";
     const e = searchParams.get("exam_type") || "";
+    const d = searchParams.get("discipline") || "";
+    const ed = searchParams.get("education_type") || "";
 
-    if (q || y || s || e) {
+    if (q || y || s || e || d || ed) {
       if (q) setSearchTerm(q);
-      const initFilters = { year: y, semester: s, exam_type: e };
+      const initFilters = {
+        year: y,
+        semester: s,
+        exam_type: e,
+        discipline: d,
+        education_type: ed,
+      };
       setFilters(initFilters);
       setIsActive(true);
       fetchPapers(q, initFilters);
@@ -70,7 +80,12 @@ const SearchPage = () => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     const term = searchTerm.trim();
-    const hasFilters = filters.year || filters.semester || filters.exam_type;
+    const hasFilters =
+      filters.year ||
+      filters.semester ||
+      filters.exam_type ||
+      filters.discipline ||
+      filters.education_type;
 
     if (!term && !hasFilters) {
       setPapers([]);
@@ -142,7 +157,13 @@ const SearchPage = () => {
 
   const handleClearSearch = () => {
     setSearchTerm("");
-    setFilters({ year: "", semester: "", exam_type: "" });
+    setFilters({
+      year: "",
+      semester: "",
+      exam_type: "",
+      discipline: "",
+      education_type: "",
+    });
     setSearchParams({});
     setIsActive(false);
     setPapers([]);
@@ -154,7 +175,9 @@ const SearchPage = () => {
       !searchTerm.trim() &&
       !filters.year &&
       !filters.semester &&
-      !filters.exam_type
+      !filters.exam_type &&
+      !filters.discipline &&
+      !filters.education_type
     )
       return;
     fetchPapers(searchTerm.trim(), filters);
@@ -407,6 +430,48 @@ const SearchPage = () => {
                   <option value="CAT 1">CAT 1</option>
                   <option value="CAT 2">CAT 2</option>
                 </select>
+
+                <select
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
+                  value={filters.education_type}
+                  onChange={(e) =>
+                    handleFilterChange("education_type", e.target.value)
+                  }
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 0.7rem center",
+                    backgroundSize: "1em",
+                  }}
+                >
+                  <option value="">Ed. Type</option>
+                  <option value="UG">UG</option>
+                  <option value="PG">PG</option>
+                  <option value="PhD">PhD</option>
+                  <option value="Diploma">Diploma</option>
+                </select>
+
+                <select
+                  className="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 outline-none hover:bg-gray-50 focus:border-gray-300 appearance-none pr-8 relative cursor-pointer"
+                  value={filters.discipline}
+                  onChange={(e) =>
+                    handleFilterChange("discipline", e.target.value)
+                  }
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "right 0.7rem center",
+                    backgroundSize: "1em",
+                  }}
+                >
+                  <option value="">Discipline</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Microbiology">Microbiology</option>
+                  <option value="Psychology">Psychology</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Management">Management</option>
+                  <option value="Humanities">Humanities</option>
+                </select>
               </div>
             </div>
 
@@ -472,9 +537,13 @@ const SearchPage = () => {
                         </h3>
 
                         {/* Exam type + semester */}
-                        <p className="text-[14px] font-medium text-gray-500 mb-6">
+                        <p className="text-[14px] font-medium text-gray-500 mb-0.5">
                           {paper.exam_type || "Exam"} • Semester{" "}
                           {paper.semester || "—"}
+                        </p>
+                        <p className="text-[12px] font-medium text-gray-400 mb-5 uppercase tracking-wider">
+                          {paper.education_type && `${paper.education_type} • `}
+                          {paper.discipline || "Discipline"}
                         </p>
 
                         {/* Actions */}

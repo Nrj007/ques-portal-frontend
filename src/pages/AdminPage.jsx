@@ -16,6 +16,8 @@ const AdminPage = () => {
   const [year, setYear] = useState("2024");
   const [semester, setSemester] = useState("Semester 1");
   const [examType, setExamType] = useState("Mid Term");
+  const [educationType, setEducationType] = useState("UG");
+  const [discipline, setDiscipline] = useState("Computer Science");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
@@ -57,6 +59,8 @@ const AdminPage = () => {
     formData.append("year", year);
     formData.append("semester", semester.replace("Semester ", ""));
     formData.append("exam_type", examType);
+    formData.append("education_type", educationType);
+    formData.append("discipline", discipline);
     formData.append("file", file);
 
     console.log("Submitting FormData:");
@@ -70,6 +74,8 @@ const AdminPage = () => {
       // Reset form
       setCourseCode("");
       setCourseTitle("");
+      setEducationType("UG");
+      setDiscipline("Computer Science");
       setFile(null);
     } catch (error) {
       console.error(error);
@@ -163,6 +169,39 @@ const AdminPage = () => {
                 {["Mid Term", "End Semester", "Supplementary"].map((t) => (
                   <option key={t} value={t}>
                     {t}
+                  </option>
+                ))}
+              </select>
+
+              {/* Education Type */}
+              <select
+                value={educationType}
+                onChange={(e) => setEducationType(e.target.value)}
+                className="bg-purple-50 border-none rounded-lg py-2 px-3 text-xs font-semibold text-purple-600 shadow-sm focus:ring-2 focus:ring-purple-200 cursor-pointer"
+              >
+                {["UG", "PG", "PhD", "Diploma"].map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+
+              {/* Discipline */}
+              <select
+                value={discipline}
+                onChange={(e) => setDiscipline(e.target.value)}
+                className="bg-green-50 border-none rounded-lg py-2 px-3 text-xs font-semibold text-green-600 shadow-sm focus:ring-2 focus:ring-green-200 cursor-pointer"
+              >
+                {[
+                  "Computer Science",
+                  "Microbiology",
+                  "Psychology",
+                  "Commerce",
+                  "Management",
+                  "Humanities",
+                ].map((d) => (
+                  <option key={d} value={d}>
+                    {d}
                   </option>
                 ))}
               </select>

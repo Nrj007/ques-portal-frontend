@@ -273,9 +273,13 @@ const FavouritesPage = () => {
                       </h3>
 
                       {/* Exam type + semester */}
-                      <p className="text-[14px] font-medium text-gray-500 mb-6">
+                      <p className="text-[14px] font-medium text-gray-500 mb-0.5">
                         {paper.exam_type || "Exam"} • Semester{" "}
                         {paper.semester || "—"}
+                      </p>
+                      <p className="text-[12px] font-medium text-gray-400 mb-5 uppercase tracking-wider">
+                        {paper.education_type && `${paper.education_type} • `}
+                        {paper.discipline || "Discipline"}
                       </p>
 
                       {/* Actions */}
