@@ -41,8 +41,10 @@ export const AuthProvider = ({ children }) => {
   const verifyOtp = async (email, otp) => {
     try {
       const response = await api.post("/auth/verify-otp", { email, otp });
-      const { user } = response.data;
-      // No need to store token in localStorage, it's in cookie
+      const { user, token } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+      }
       setUser(user);
       closeLoginModal();
       return { success: true, user };
@@ -57,6 +59,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post("/auth/logout");
+      localStorage.removeItem("token");
       setUser(null);
     } catch (error) {
       console.error("Logout failed", error);
