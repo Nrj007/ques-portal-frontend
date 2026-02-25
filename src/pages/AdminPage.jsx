@@ -69,9 +69,7 @@ const AdminPage = () => {
     }
 
     try {
-      await api.post("/papers", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await api.post("/papers", formData);
       setMessage({ type: "success", text: "Paper published successfully!" });
       // Reset form
       setCourseCode("");
