@@ -48,7 +48,7 @@ const Navbar = () => {
                 <img
                   src={containerLogo}
                   alt="Container Logo"
-                  className="h-12 w-auto object-cover"
+                  className="h-17 w-auto object-cover "
                 />
               </div>
             </Link>
@@ -65,7 +65,7 @@ const Navbar = () => {
                     : "text-gray-500 hover:text-gray-900"
                 }`}
               >
-                All Papers
+         Search
               </Link>
               {user ? (
                 <div className="flex items-center gap-6">
@@ -235,7 +235,7 @@ const Navbar = () => {
                   : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
               }`}
             >
-              All Papers
+              Search
             </Link>
 
             {user ? (
@@ -273,7 +273,7 @@ const Navbar = () => {
                   onClick={openLoginModal}
                   className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                 >
-                  <FileText className="w-4 h-4" />
+              
                   Request Paper
                 </button>
               </>

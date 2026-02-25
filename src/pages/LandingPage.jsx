@@ -142,11 +142,15 @@ const LandingPage = () => {
 
   return (
     <div
-      className="bg-white min-h-screen text-gray-900"
+      className="bg-white min-h-screen text-gray-900 relative overflow-x-hidden"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* ── NAVBAR ── */}
-      <Navbar />
+      {/* ── MINIMAL PARTICLE BACKGROUND ── */}
+      <HeroParticles />
+      <div className="relative z-10 w-full">
+        {/* ── NAVBAR ── */}
+        <Navbar />
+      </div>
 
       {/* ── HERO ── */}
       <section className="pt-32 pb-16 px-6 lg:px-8">
@@ -531,6 +535,90 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+/* ── Particle canvas component for the Hero/Background ── */
+function HeroParticles() {
+  const canvasRef = useRef(null);
+  const containerRef = useRef(null);
+  const particlesRef = useRef([]);
+  const animFrameRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+    const ctx = canvas.getContext("2d");
+
+    const resize = () => {
+      const { width, height } = container.getBoundingClientRect();
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+    };
+
+    const PARTICLE_COUNT = Math.floor(window.innerWidth / 15); // Adjust density based on screen width
+
+    const createParticle = (w, h) => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 1.5 + 0.5, // Small particles
+      vx: (Math.random() - 0.5) * 0.2, // Very slow movement
+      vy: (Math.random() - 0.5) * 0.2, // Very slow movement
+      opacity: Math.random() * 0.3 + 0.1, // Subtle opacity
+    });
+
+    resize();
+    const { width: cw, height: ch } = container.getBoundingClientRect();
+    particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () =>
+      createParticle(cw, ch),
+    );
+
+    const draw = () => {
+      const { width: w, height: h } = container.getBoundingClientRect();
+      ctx.clearRect(0, 0, w, h);
+
+      particlesRef.current.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // wrap around smoothly
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 0, 0, ${p.opacity})`; // Black particles
+        ctx.fill();
+      });
+
+      animFrameRef.current = requestAnimationFrame(draw);
+    };
+
+    draw();
+    window.addEventListener("resize", resize);
+
+    return () => {
+      cancelAnimationFrame(animFrameRef.current);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
+    >
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 pointer-events-none"
+      />
+    </div>
+  );
+}
 
 /* ── Particle canvas component for the CTA card ── */
 function CtaCardWithParticles({ children }) {

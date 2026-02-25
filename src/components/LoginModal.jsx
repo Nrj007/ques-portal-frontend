@@ -6,18 +6,19 @@ import { useNavigate } from "react-router-dom";
 const LoginModal = () => {
   const { isLoginModalOpen, closeLoginModal, sendOtp, verifyOtp } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]); // 6 digits based on backend
   const [step, setStep] = useState("email"); // email | otp
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const otpInputRefs = useRef([]);
+  const fullEmail = username ? `${username}@kristujayanti.com` : "";
 
   useEffect(() => {
     if (isLoginModalOpen) {
       // Reset state when modal opens
-      setEmail("");
+      setUsername("");
       setOtp(["", "", "", "", "", ""]);
       setStep("email");
       setError("");
@@ -29,16 +30,16 @@ const LoginModal = () => {
 
   const handleSendOtp = async (e) => {
     e.preventDefault();
+    if (e) e.preventDefault();
     setError("");
 
-    // Only allow @kristujayanti.com emails
-    if (!email.toLowerCase().endsWith("@kristujayanti.com")) {
-      setError("Only @kristujayanti.com email addresses are allowed.");
+    if (!username.trim()) {
+      setError("Please enter your university ID.");
       return;
     }
 
     setLoading(true);
-    const res = await sendOtp(email);
+    const res = await sendOtp(fullEmail);
     setLoading(false);
     if (res.success) {
       setStep("otp");
@@ -52,7 +53,7 @@ const LoginModal = () => {
     setError("");
     setLoading(true);
     const otpCode = otp.join("");
-    const res = await verifyOtp(email, otpCode);
+    const res = await verifyOtp(fullEmail, otpCode);
     setLoading(false);
     if (!res.success) {
       setError(res.message);
@@ -92,7 +93,7 @@ const LoginModal = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md relative overflow-hidden">
+      <div className="bg-white rounded-4xl shadow-xl w-full max-w-md relative overflow-hidden">
         {/* Close Button */}
         <button
           onClick={closeLoginModal}
@@ -108,7 +109,7 @@ const LoginModal = () => {
             </div>
             <h2 className="text-2xl font-bold text-gray-900">Login</h2>
             <p className="text-gray-500 text-sm text-center mt-1">
-              Enter your university email to access this portal
+              Enter your university ID to access this portal
             </p>
           </div>
 
@@ -121,25 +122,30 @@ const LoginModal = () => {
           {step === "email" ? (
             <form onSubmit={handleSendOtp} className="space-y-4">
               <div>
-                <label className="sr-only">Email</label>
-                <div className="relative">
+                <label className="sr-only">University ID</label>
+                <div className="relative flex rounded-xl shadow-sm border border-gray-300 overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all bg-white">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Mail className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    type="email"
+                    type="text"
                     required
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
-                    placeholder="yourname@kristujayanti.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 block w-full pl-10 py-3 bg-transparent border-none focus:ring-0 sm:text-sm placeholder-gray-400 text-gray-900 font-medium"
+                    placeholder="24MCAA44"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
+                  <div className="flex items-center pr-4 pl-2 bg-gray-50 border-l border-gray-200">
+                    <span className="text-gray-500 sm:text-sm font-medium">
+                      @kristujayanti.com
+                    </span>
+                  </div>
                 </div>
               </div>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-2xl shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {loading ? (
                   <Loader className="w-5 h-5 animate-spin" />
@@ -154,7 +160,7 @@ const LoginModal = () => {
                 <div className="flex items-center gap-2 overflow-hidden">
                   <Mail className="w-4 h-4 text-gray-400 flex-shrink-0" />
                   <span className="text-sm text-gray-600 truncate">
-                    {email}
+                    {fullEmail}
                   </span>
                 </div>
                 <button
