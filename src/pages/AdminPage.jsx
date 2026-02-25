@@ -52,26 +52,34 @@ const AdminPage = () => {
     setLoading(true);
     setMessage({ type: "", text: "" });
 
-    const formData = new FormData();
-    formData.append("title", courseTitle); // Using Title as Course Title
-    formData.append("course_code", courseCode);
-    formData.append("course", courseTitle); // Backward compatibility
-    formData.append("year", year);
-    formData.append("semester", semester.replace("Semester ", ""));
-    formData.append("exam_type", examType);
-    formData.append("education_type", educationType);
-    formData.append("discipline", discipline);
-    formData.append("file", file);
-
-    console.log("Submitting FormData:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-
     try {
-      await api.post("/papers", formData);
+      // Step 1: Get a presigned PUT URL from the backend
+      const presignedRes = await api.get("/papers/presigned-upload", {
+        params: { filename: file.name, contentType: file.type },
+      });
+      const { uploadUrl, fileKey } = presignedRes.data;
+
+      // Step 2: PUT the file directly to S3 (raw binary, no server in between)
+      await fetch(uploadUrl, {
+        method: "PUT",
+        body: file,
+        headers: { "Content-Type": file.type },
+      });
+
+      // Step 3: Save metadata to DB via backend
+      await api.post("/papers", {
+        title: courseTitle,
+        course_code: courseCode,
+        course: courseTitle,
+        year,
+        semester: semester.replace("Semester ", ""),
+        exam_type: examType,
+        education_type: educationType,
+        discipline,
+        fileKey,
+      });
+
       setMessage({ type: "success", text: "Paper published successfully!" });
-      // Reset form
       setCourseCode("");
       setCourseTitle("");
       setEducationType("UG");
