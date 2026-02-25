@@ -57,18 +57,18 @@ const Navbar = () => {
           {/* Navigation Links */}
           <div className="hidden md:flex flex-1 justify-center">
             <div className="flex items-center justify-center gap-6 whitespace-nowrap">
-              <Link
-                to="/search"
-                className={`text-sm font-medium transition-colors ${
-                  !isFavourites && !isHome
-                    ? "text-gray-900 font-bold"
-                    : "text-gray-500 hover:text-gray-900"
-                }`}
-              >
-         Search
-              </Link>
-              {user ? (
+              {user && (
                 <div className="flex items-center gap-6">
+                  <Link
+                    to="/search"
+                    className={`text-sm font-medium transition-colors ${
+                      !isFavourites && !isHome
+                        ? "text-gray-900 font-bold"
+                        : "text-gray-500 hover:text-gray-900"
+                    }`}
+                  >
+                    Search
+                  </Link>
                   <Link
                     to="/favourites"
                     className={`text-sm font-medium transition-colors ${
@@ -89,21 +89,6 @@ const Navbar = () => {
                   >
                     Request Paper
                   </Link>
-                </div>
-              ) : (
-                <div className="flex items-center gap-6">
-                  <button
-                    onClick={openLoginModal}
-                    className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-                  >
-                    Favorites
-                  </button>
-                  <button
-                    onClick={openLoginModal}
-                    className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1.5"
-                  >
-                    Request Paper
-                  </button>
                 </div>
               )}
 
@@ -227,19 +212,18 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0 top-full">
           <div className="px-4 pt-2 pb-3 space-y-1 flex flex-col">
-            <Link
-              to="/search"
-              className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                !isFavourites && !isHome
-                  ? "text-gray-900 bg-gray-50 font-bold"
-                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-              }`}
-            >
-              Search
-            </Link>
-
-            {user ? (
+            {user && (
               <>
+                <Link
+                  to="/search"
+                  className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                    !isFavourites && !isHome
+                      ? "text-gray-900 bg-gray-50 font-bold"
+                      : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                  }`}
+                >
+                  Search
+                </Link>
                 <Link
                   to="/favourites"
                   className={`block px-3 py-2 rounded-md text-sm font-medium ${
@@ -260,22 +244,6 @@ const Navbar = () => {
                 >
                   Request Paper
                 </Link>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={openLoginModal}
-                  className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                >
-                  Favorites
-                </button>
-                <button
-                  onClick={openLoginModal}
-                  className="flex items-center gap-2 w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                >
-              
-                  Request Paper
-                </button>
               </>
             )}
 
