@@ -62,7 +62,7 @@ const Navbar = () => {
                   <Link
                     to="/search"
                     className={`text-sm font-medium transition-colors ${
-                      !isFavourites && !isHome
+                      location.pathname === "/search"
                         ? "text-gray-900 font-bold"
                         : "text-gray-500 hover:text-gray-900"
                     }`}
@@ -217,7 +217,7 @@ const Navbar = () => {
                 <Link
                   to="/search"
                   className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                    !isFavourites && !isHome
+                    location.pathname === "/search"
                       ? "text-gray-900 bg-gray-50 font-bold"
                       : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                   }`}
