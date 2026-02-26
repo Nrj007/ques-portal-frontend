@@ -115,9 +115,9 @@ const AdminRequestsPage = () => {
 
         <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-8 pb-16 flex-grow">
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-8 flex justify-center flex-col items-cente">
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-              <ClipboardList className="w-7 h-7 text-gray-700" />
+         
               Paper Requests
             </h1>
             <p className="text-sm text-gray-400 mt-1">
@@ -125,7 +125,7 @@ const AdminRequestsPage = () => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-6 relative">
+          <div className="flex flex-col justify-center items-center sm:flex-row gap-4 mb-6 relative">
             <div className="relative flex-grow max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input

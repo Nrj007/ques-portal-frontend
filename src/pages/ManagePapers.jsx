@@ -159,7 +159,7 @@ const ManagePapers = () => {
 
         <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-8 pb-8">
           {/* Page Header */}
-          <div className="mb-8">
+          <div className="mb-8 flex justify-center flex-col items-cente">
             <h1 className="text-3xl font-bold text-gray-900">Manage Papers</h1>
             <p className="text-sm text-gray-400 mt-1">
               Select papers to edit or remove from the archive.
@@ -167,7 +167,7 @@ const ManagePapers = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="w-full mb-8 relative z-10">
+          <div className="w-full mb-8 relative z-10 flex justify-center flex-col items-cente">
             <div
               className={`bg-white rounded-3xl max-w-2xl px-6 py-5 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
               style={{

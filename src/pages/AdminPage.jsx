@@ -11,9 +11,12 @@ import {
 import Navbar from "../components/Navbar";
 
 const AdminPage = () => {
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 25 }, (_, i) => currentYear - i);
+
   const [courseCode, setCourseCode] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
-  const [year, setYear] = useState("2024");
+  const [year, setYear] = useState(currentYear.toString());
   const [semester, setSemester] = useState("Semester 1");
   const [examType, setExamType] = useState("Mid Term");
   const [educationType, setEducationType] = useState("UG");
@@ -89,7 +92,7 @@ const AdminPage = () => {
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Navbar />
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="text-center mb-16 mt-8">
+        <div className="text-center mb-16 mt-14">
           <h1 className="text-3xl font-bold mb-2">Upload New Paper</h1>
           <p className="text-gray-400 text-sm">
             Create a digital record for a new semester examination paper.
@@ -140,7 +143,7 @@ const AdminPage = () => {
                 onChange={(e) => setYear(e.target.value)}
                 className="bg-white border-none rounded-lg py-2 px-3 text-xs font-semibold text-gray-600 shadow-sm focus:ring-2 focus:ring-indigo-100 cursor-pointer"
               >
-                {[2024, 2023, 2022, 2021].map((y) => (
+                {years.map((y) => (
                   <option key={y} value={y}>
                     {y}
                   </option>
@@ -179,7 +182,7 @@ const AdminPage = () => {
                 onChange={(e) => setEducationType(e.target.value)}
                 className="bg-purple-50 border-none rounded-lg py-2 px-3 text-xs font-semibold text-purple-600 shadow-sm focus:ring-2 focus:ring-purple-200 cursor-pointer"
               >
-                {["UG", "PG", "PhD", "Diploma"].map((t) => (
+                {["UG", "PG"].map((t) => (
                   <option key={t} value={t}>
                     {t}
                   </option>
