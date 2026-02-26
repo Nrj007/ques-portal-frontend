@@ -179,7 +179,14 @@ const AdminPage = () => {
               {/* Education Type */}
               <select
                 value={educationType}
-                onChange={(e) => setEducationType(e.target.value)}
+                onChange={(e) => {
+                  setEducationType(e.target.value);
+                  setDiscipline(
+                    e.target.value === "PG"
+                      ? "Computer Science"
+                      : "Computer Science",
+                  );
+                }}
                 className="bg-purple-50 border-none rounded-lg py-2 px-3 text-xs font-semibold text-purple-600 shadow-sm focus:ring-2 focus:ring-purple-200 cursor-pointer"
               >
                 {["UG", "PG"].map((t) => (
@@ -195,18 +202,57 @@ const AdminPage = () => {
                 onChange={(e) => setDiscipline(e.target.value)}
                 className="bg-green-50 border-none rounded-lg py-2 px-3 text-xs font-semibold text-green-600 shadow-sm focus:ring-2 focus:ring-green-200 cursor-pointer"
               >
-                {[
-                  "Computer Science",
-                  "Microbiology",
-                  "Psychology",
-                  "Commerce",
-                  "Management",
-                  "Humanities",
-                ].map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
+                {educationType === "UG"
+                  ? [
+                      "Biochemistry",
+                      "Biotechnology",
+                      "Chemistry",
+                      "Commerce",
+                      "Computer Science",
+                      "Economics",
+                      "Electronics",
+                      "English",
+                      "Forensic Science",
+                      "Genetics",
+                      "Hindi",
+                      "Journalism & Mass Communication",
+                      "Kannada",
+                      "Law",
+                      "Management",
+                      "Mathematics",
+                      "Microbiology",
+                      "Physics",
+                      "Psychology",
+                      "Social Work",
+                      "Sociology",
+                      "Statistics",
+                      "Visual Communication",
+                    ].map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))
+                  : [
+                      "Commerce",
+                      "Computer Science",
+                      "Data Science",
+                      "Economics",
+                      "English",
+                      "Forensic Science",
+                      "Journalism & Mass Communication",
+                      "Law",
+                      "Life Sciences",
+                      "Management",
+                      "Mathematics",
+                      "Physical Sciences",
+                      "Psychology",
+                      "Social Work",
+                      "Statistics",
+                    ].map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
               </select>
             </div>
           </div>
