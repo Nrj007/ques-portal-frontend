@@ -143,17 +143,27 @@ const LandingPage = () => {
 
   return (
     <div
-      className="bg-white min-h-screen text-gray-900 relative overflow-x-hidden"
-      style={{ fontFamily: "'Inter', sans-serif" }}
+      className="min-h-screen text-gray-900 relative overflow-x-hidden"
+      style={{ fontFamily: "'Inter', sans-serif", backgroundColor: "#ffffff" }}
     >
-
-      <div className="relative z-10 w-full">
+      <div className="relative z-50 w-full">
         {/* ── NAVBAR ── */}
         <Navbar />
       </div>
 
+      {/* ── TOP FADE GRADIENT ── */}
+      <div
+        className="fixed top-0 left-0 right-0 pointer-events-none z-0"
+        style={{
+          height: "65vh",
+          minHeight: "500px",
+          background:
+            "linear-gradient(180deg, rgba(162, 244, 253, 0.25) 0%, rgba(233, 212, 255, 0.25) 45%, rgba(252, 206, 232, 0.25) 75%, rgba(255, 255, 255, 0) 100%)",
+        }}
+      />
+
       {/* ── HERO ── */}
-      <section className="pt-32 pb-16 px-6 lg:px-8">
+      <section className="relative z-10 pt-32 pb-16 px-6 lg:px-8">
         <div className="max-w-6xl  w-full justify-between mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
           {/* Left – QVault brand */}
           <div className="flex flex-col items-center lg:items-start flex-shrink-0 select-none">
@@ -189,11 +199,15 @@ const LandingPage = () => {
               Question papers.
               <br />
               <TextType
-                text={["One search away."]}
+                text={[
+                  "One search away.",
+                  "Single Repository.",
+                  "All in one place.",
+                ]}
                 showCursor={false}
                 typingSpeed={50}
                 pauseDuration={1500}
-                deletingSpeed={30}
+                deletingSpeed={60}
                 loop={true}
                 className="text-transparent bg-clip-text bg-gradient-to-r from-[#19A1E6] to-[#155DFC]"
               />
