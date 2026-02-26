@@ -63,7 +63,7 @@ const handleSubmit = async () => {
     // Step 2: PUT the file DIRECTLY to S3 (bypasses your proxy entirely)
     await fetch(uploadUrl, {
       method: "PUT",
-      headers: { "Content-Type": file.type  , "Content-Disposition": "inline",},
+      headers: { "Content-Type": file.type },
       
       body: file,
     });
