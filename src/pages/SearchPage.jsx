@@ -471,12 +471,54 @@ const SearchPage = () => {
                   }}
                 >
                   <option value="">Discipline</option>
-                  <option value="Computer Science">Computer Science</option>
-                  <option value="Microbiology">Microbiology</option>
-                  <option value="Psychology">Psychology</option>
-                  <option value="Commerce">Commerce</option>
-                  <option value="Management">Management</option>
-                  <option value="Humanities">Humanities</option>
+                  <optgroup label="── UG ──">
+                    <option value="Biochemistry">Biochemistry</option>
+                    <option value="Biotechnology">Biotechnology</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="English">English</option>
+                    <option value="Forensic Science">Forensic Science</option>
+                    <option value="Genetics">Genetics</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Journalism & Mass Communication">
+                      Journalism &amp; Mass Communication
+                    </option>
+                    <option value="Kannada">Kannada</option>
+                    <option value="Law">Law</option>
+                    <option value="Management">Management</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Microbiology">Microbiology</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Social Work">Social Work</option>
+                    <option value="Sociology">Sociology</option>
+                    <option value="Statistics">Statistics</option>
+                    <option value="Visual Communication">
+                      Visual Communication
+                    </option>
+                  </optgroup>
+                  <optgroup label="── PG ──">
+                    <option value="Commerce">Commerce</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Economics">Economics</option>
+                    <option value="English">English</option>
+                    <option value="Forensic Science">Forensic Science</option>
+                    <option value="Journalism & Mass Communication">
+                      Journalism &amp; Mass Communication
+                    </option>
+                    <option value="Law">Law</option>
+                    <option value="Life Sciences">Life Sciences</option>
+                    <option value="Management">Management</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physical Sciences">Physical Sciences</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Social Work">Social Work</option>
+                    <option value="Statistics">Statistics</option>
+                  </optgroup>
                 </select>
               </div>
             </div>
