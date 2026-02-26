@@ -124,19 +124,19 @@ const AdminRequestsPage = () => {
             </p>
           </div>
 
-          <div className="flex flex-col justify-center items-center sm:flex-row gap-4 mb-6 relative">
-            <div className="relative flex-grow max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <div className="flex flex-col justify-center items-center sm:flex-row gap-4 mb-10 w-full max-w-4xl mx-auto relative z-10">
+            <div className="relative flex-grow w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="text"
-                className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-300"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-emerald-100 focus:border-emerald-300 shadow-sm transition-shadow hover:shadow-md"
                 placeholder="Search by course, code, or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <select
-              className="bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-100"
+              className="bg-white border border-gray-200 rounded-2xl px-6 py-4 text-base text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-100 shadow-sm transition-shadow hover:shadow-md cursor-pointer whitespace-nowrap"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >

@@ -4,44 +4,44 @@ import { X, Sparkles } from "lucide-react";
 const teamMembers = [
   {
     name: "Aaron Aji",
-    course: "BCA Cloud Computing A",
-    id: "23BCLA02",
+    course: "BCA Cloud Computing ",
+    year: "2023-2026",
     bg: "bg-blue-50",
   },
   {
     name: "Joseph Mathew",
-    course: "BCA Cloud Computing A",
-    id: "23BCLA30",
+    course: "BCA Cloud Computing ",
+    year: "2023-2026",
     bg: "bg-fuchsia-50",
   },
   {
     name: "Matthew Panachamoottil Eapen",
     course: "BCA General",
-    id: "23BCAF36",
+    year: "2023-2026",
     bg: "bg-orange-50",
   },
   {
     name: "Chandana V P",
     course: "BCA General",
-    id: "23BCAF19",
+    year: "2023-2026",
     bg: "bg-emerald-50",
   },
   {
     name: "Jerin Thomas Joji",
-    course: "BCA Cloud Computing A",
-    id: "23BCLA26",
+    course: "BCA Cloud Computing ",
+    year: "2023-2026",
     bg: "bg-red-50",
   },
   {
     name: "Megha Rose Tom",
     course: "BCA General",
-    id: "23BCAA32",
+    year: "2023-2026",
     bg: "bg-sky-50",
   },
   {
     name: "Jerom Manoj",
-    course: "BCA Cloud Computing A",
-    id: "23BCLA27",
+    course: "BCA Cloud Computing ",
+    year: "2023-2026",
     bg: "bg-amber-50",
   },
 ];
@@ -109,7 +109,7 @@ const TeamModal = ({ isOpen, onClose }) => {
 
                 <div className="mt-auto pt-4 border-t border-black/5 flex items-center justify-between">
                   <span className="text-[10px] font-bold text-black/30 tracking-[0.15em] uppercase">
-                    ID : {member.id}
+                    {member.year}
                   </span>
                 </div>
               </div>

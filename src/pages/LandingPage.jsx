@@ -145,8 +145,7 @@ const LandingPage = () => {
       className="bg-white min-h-screen text-gray-900 relative overflow-x-hidden"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* ── MINIMAL PARTICLE BACKGROUND ── */}
-      <HeroParticles />
+
       <div className="relative z-10 w-full">
         {/* ── NAVBAR ── */}
         <Navbar />

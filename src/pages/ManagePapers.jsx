@@ -169,7 +169,7 @@ const ManagePapers = () => {
           {/* Search Bar */}
           <div className="w-full mb-8 relative z-10 flex flex-col items-center justify-center">
             <div
-              className={`bg-white rounded-3xl max-w-2xl px-6 py-5 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
+              className={`bg-white rounded-3xl w-full max-w-4xl px-6 py-5 transition-shadow duration-300 hover:shadow-[0_0_0_2.236px_rgba(173,70,255,0.08),0_14.708px_41.18px_-6.708px_rgba(0,0,0,0.12)]`}
               style={{
                 boxShadow:
                   "0 0 0 2.236px rgba(173, 70, 255, 0.06), 0 14.708px 41.18px -6.708px rgba(0, 0, 0, 0.08)",
