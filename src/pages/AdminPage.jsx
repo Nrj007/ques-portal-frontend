@@ -43,51 +43,53 @@ const AdminPage = () => {
     e.preventDefault();
   };
 
-  const handleSubmit = async () => {
-    if (!file || !courseCode || !courseTitle) {
-      setMessage({
-        type: "error",
-        text: "Please fill all required fields and upload a file.",
-      });
-      return;
-    }
-
-    setLoading(true);
-    setMessage({ type: "", text: "" });
-
-    const formData = new FormData();
-    formData.append("title", courseTitle); // Using Title as Course Title
-    formData.append("course_code", courseCode);
-    formData.append("course", courseTitle); // Backward compatibility
-    formData.append("year", year);
-    formData.append("semester", semester.replace("Semester ", ""));
-    formData.append("exam_type", examType);
-    formData.append("education_type", educationType);
-    formData.append("discipline", discipline);
-    formData.append("file", file);
-
-    console.log("Submitting FormData:");
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-
-    try {
-      await api.post("/papers", formData);
-      setMessage({ type: "success", text: "Paper published successfully!" });
-      // Reset form
-      setCourseCode("");
-      setCourseTitle("");
-      setEducationType("UG");
-      setDiscipline("Computer Science");
-      setFile(null);
-    } catch (error) {
-      console.error(error);
-      setMessage({ type: "error", text: "Failed to upload paper." });
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const handleSubmit = async () => {
+  if (!file || !courseCode || !courseTitle) {
+    setMessage({ type: "error", text: "Please fill all required fields and upload a file." });
+    return;
+  }
+  setLoading(true);
+  setMessage({ type: "", text: "" });
+  try {
+    // Step 1: Get a presigned S3 PUT URL from the backend
+    const { data } = await api.get("/papers/upload-url", {
+      params: {
+        filename: file.name,
+        contentType: file.type,
+      },
+    });
+    const { uploadUrl, fileUrl } = data;
+    // Step 2: PUT the file DIRECTLY to S3 (bypasses your proxy entirely)
+    await fetch(uploadUrl, {
+      method: "PUT",
+      headers: { "Content-Type": file.type },
+      body: file,
+    });
+    // Step 3: Confirm with backend to save DB record
+    await api.post("/papers/confirm", {
+      title: courseTitle,
+      course_code: courseCode,
+      course: courseTitle,
+      year,
+      semester: semester.replace("Semester ", ""),
+      exam_type: examType,
+      education_type: educationType,
+      discipline,
+      fileUrl,
+    });
+    setMessage({ type: "success", text: "Paper published successfully!" });
+    setCourseCode("");
+    setCourseTitle("");
+    setEducationType("UG");
+    setDiscipline("Computer Science");
+    setFile(null);
+  } catch (error) {
+    console.error(error);
+    setMessage({ type: "error", text: "Failed to upload paper." });
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <Navbar />
