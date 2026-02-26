@@ -56,6 +56,7 @@ const handleSubmit = async () => {
       params: {
         filename: file.name,
         contentType: file.type,
+         "Content-Disposition": "inline",
       },
     });
     const { uploadUrl, fileUrl } = data;
