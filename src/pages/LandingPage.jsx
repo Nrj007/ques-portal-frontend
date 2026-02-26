@@ -199,7 +199,7 @@ const LandingPage = () => {
               <TextType
                 text={[
                   "One search away.",
-                  "Single Repository.",
+                  "Single Repo.",
                   "All in one place.",
                 ]}
                 showCursor={false}
