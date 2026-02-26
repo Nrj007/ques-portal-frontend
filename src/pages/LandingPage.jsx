@@ -17,6 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import TeamModal from "../components/TeamModal";
+import TextType from "../components/TextType";
 
 // Icon colors for paper cards — cycles through a set
 const iconColors = [
@@ -187,9 +188,15 @@ const LandingPage = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-[1.1] mb-2 tracking-tight">
               Question papers.
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#19A1E6] to-[#155DFC]">
-                One search away.
-              </span>
+              <TextType
+                text={["One search away."]}
+                showCursor={false}
+                typingSpeed={50}
+                pauseDuration={1500}
+                deletingSpeed={30}
+                loop={true}
+                className="text-transparent bg-clip-text bg-gradient-to-r from-[#19A1E6] to-[#155DFC]"
+              />
             </h1>
 
             <p className="text-sm md:text-base text-gray-500 mb-8 max-w-lg leading-relaxed mt-4">
