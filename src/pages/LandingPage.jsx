@@ -151,20 +151,18 @@ const LandingPage = () => {
         <Navbar />
       </div>
 
-      {/* ── TOP FADE GRADIENT ── */}
-      <div
-        className="fixed top-0 left-0 right-0 pointer-events-none z-0"
-        style={{
-          height: "65vh",
-          minHeight: "500px",
-          background:
-            "linear-gradient(180deg, rgba(162, 244, 253, 0.25) 0%, rgba(233, 212, 255, 0.25) 45%, rgba(252, 206, 232, 0.25) 75%, rgba(255, 255, 255, 0) 100%)",
-        }}
-      />
-
       {/* ── HERO ── */}
       <section className="relative z-10 pt-32 pb-16 px-6 lg:px-8">
-        <div className="max-w-6xl  w-full justify-between mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
+        {/* Hero background gradient – contained inside hero only */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(162, 244, 253, 0.28) 0%, rgba(233, 212, 255, 0.28) 45%, rgba(252, 206, 232, 0.28) 80%, rgba(255, 255, 255, 0) 100%)",
+          }}
+        />
+        <div className="relative z-10 max-w-6xl w-full mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
           {/* Left – QVault brand */}
           <div className="flex flex-col items-center lg:items-start flex-shrink-0 select-none">
             <div className="relative w-[180px] sm:w-[240px] lg:w-[480px] md:[300px]">
