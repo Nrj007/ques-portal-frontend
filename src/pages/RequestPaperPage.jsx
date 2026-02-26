@@ -69,7 +69,7 @@ const RequestPaperPage = () => {
 
         <div className="relative z-10 w-full max-w-2xl mx-auto px-4 pt-10 pb-16 flex-grow">
           {/* Header */}
-          <div className="mb-8 flex justify-center flex-col items-center">
+          <div className="mb-8 flex flex-col items-center justify-center text-center">
             <h1 className="text-3xl font-bold text-gray-900">
               Request a Paper
             </h1>
