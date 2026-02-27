@@ -15,6 +15,9 @@ const iconColors = [
   { bg: "bg-emerald-50/80", text: "text-emerald-500" },
 ];
 
+const currentYear = new Date().getFullYear();
+const years = Array.from({ length: 26 }, (_, i) => currentYear - i);
+
 const SearchPage = () => {
   const { user, openLoginModal } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -382,10 +385,11 @@ const SearchPage = () => {
                   }}
                 >
                   <option value="">Year</option>
-                  <option value="2024">2024</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
+                  {years.map((year) => (
+                    <option key={year} value={year.toString()}>
+                      {year}
+                    </option>
+                  ))}
                 </select>
 
                 <select
@@ -433,8 +437,6 @@ const SearchPage = () => {
                   <option value="Mid Term">Mid Term</option>
                   <option value="End Semester">End Semester</option>
                   <option value="Supplementary">Supplementary</option>
-                  <option value="CAT 1">CAT 1</option>
-                  <option value="CAT 2">CAT 2</option>
                 </select>
 
                 <select
@@ -453,8 +455,6 @@ const SearchPage = () => {
                   <option value="">Ed. Type</option>
                   <option value="UG">UG</option>
                   <option value="PG">PG</option>
-                  <option value="PhD">PhD</option>
-                  <option value="Diploma">Diploma</option>
                 </select>
 
                 <select

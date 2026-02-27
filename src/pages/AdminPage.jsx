@@ -93,9 +93,9 @@ const handleSubmit = async () => {
 };
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">\
-    <div className="text-inter font-inter">
+
      <Navbar />
-    </div>
+
  
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="text-center mb-16 mt-14">
