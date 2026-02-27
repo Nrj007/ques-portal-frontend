@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <linearGradient id="primary-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+  </defs>
+
+  <rect width="120" height="120" rx="30" fill="url(#primary-grad)" />
+
+  <g transform="translate(2, -1)">
+    <!-- Outer Ring of the Q -->
+    <circle cx="54" cy="54" r="26" fill="none" stroke="white" stroke-width="14" />
+    
+    <!-- Tail of the Q -->
+    <line x1="68" y1="68" x2="88" y2="88" stroke="white" stroke-width="14" stroke-linecap="round" />
+
+    <!-- Vault Keyhole inside the Q -->
+    <circle cx="54" cy="47" r="5" fill="white" />
+    <path d="M 51 47 L 48 61 C 48 62.5 49 63 50.5 63 L 57.5 63 C 59 63 60 62.5 60 61 L 57 47 Z" fill="white" />
+  </g>
+</svg>

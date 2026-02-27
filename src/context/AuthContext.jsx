@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
         message: error.response?.data?.message || "OTP verification failed",
       };
     }
-  };
+  };   
 
   const logout = async () => {
     try {
