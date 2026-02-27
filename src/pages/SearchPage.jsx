@@ -406,7 +406,7 @@ const SearchPage = () => {
                   }}
                 >
                   <option value="">Sem</option>
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => {
+                  {[1, 2, 3, 4, 5, 6, 7, 8,9,10].map((s) => {
                     let suffix = "th";
                     if (s === 1) suffix = "st";
                     if (s === 2) suffix = "nd";
