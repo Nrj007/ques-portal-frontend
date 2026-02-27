@@ -64,7 +64,6 @@ const handleSubmit = async () => {
     await fetch(uploadUrl, {
       method: "PUT",
       headers: { "Content-Type": file.type },
-      
       body: file,
     });
     // Step 3: Confirm with backend to save DB record
@@ -93,11 +92,14 @@ const handleSubmit = async () => {
   }
 };
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      <Navbar />
+    <div className="min-h-screen bg-white font-sans text-gray-900">\
+    <div className="text-inter font-inter">
+     <Navbar />
+    </div>
+ 
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="text-center mb-16 mt-14">
-          <h1 className="text-3xl font-bold mb-2">Upload New Paper</h1>
+          <h1 className="text-3xl font-inter text-inter font-bold mb-2">Upload New Paper</h1>
           <p className="text-gray-400 text-sm">
             Create a digital record for a new semester examination paper.
           </p>

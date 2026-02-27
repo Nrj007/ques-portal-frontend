@@ -157,7 +157,7 @@ const FavouritesPage = () => {
         <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-8 pb-16">
           {/* Page Header */}
           <div className="mb-8 flex flex-col items-center justify-center text-center">
-            <h1 className="text-3xl font-bold text-gray-900 flex items-center justify-center gap-3">
+            <h1 className="text-3xl font-inter text-inter font-bold text-gray-900 flex items-center justify-center gap-3 font-inter text-inte">
               My Favourites
             </h1>
             <p className="text-sm text-gray-400 mt-1">

@@ -160,7 +160,7 @@ const ManagePapers = () => {
         <div className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-8 pb-8">
           {/* Page Header */}
           <div className="mb-8 flex flex-col items-center justify-center text-center">
-            <h1 className="text-3xl font-bold text-gray-900">Manage Papers</h1>
+            <h1 className="text-3xl font-bold text-gray-900 font-inter text-inter">Manage Papers</h1>
             <p className="text-sm text-gray-400 mt-1">
               Select papers to edit or remove from the archive.
             </p>
